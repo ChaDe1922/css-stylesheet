@@ -1934,3 +1934,23 @@ details.lo1-obj[open] .lo1-chevron { transform: rotate(180deg); background: rgba
   border-left: 2px solid var(--green-600);
   border-bottom: 2px solid var(--green-600);
 }
+
+
+.rendered-markdown .lo1-two-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+
+@media (max-width: 820px) {
+  .rendered-markdown .lo1-two-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* optional: make both panels feel equally “card-like” */
+.rendered-markdown .lo1-two-panel .lo1-note {
+  margin: 0;              /* prevent double margins */
+  height: 100%;           /* helps equal-height look */
+}
