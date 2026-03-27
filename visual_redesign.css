@@ -1488,3 +1488,75 @@ details.lo1-obj[open] .lo1-chevron { transform: rotate(180deg); background: rgba
   .ls2b-map-link, .ls2b-pill, .codio-button, .toggle .toggle-label,
   .toggle .toggle-handle, .theme-toggle-switch, .theme-toggle-switch::before { transition: none !important; }
 }
+
+
+/* =========================================================
+   LO1 Template Patch — pill tint colors + callout variants
+   Add this at the very bottom of your CSS file.
+   ========================================================= */
+
+:root{
+  /* extra neutrals for "mode" pill */
+  --slate-50:#f8fafc;
+  --slate-200:#e2e8f0;
+  --slate-700:#334155;
+
+  /* teal for "deliverable" pill */
+  --teal-50:#ecfeff;
+  --teal-200:#99f6e4;
+  --teal-700:#0f766e;
+  --teal-500:#14b8a6;
+}
+
+/* --- Pills: tinted backgrounds + per-pill dot colors --- */
+.rendered-markdown .lo1 .lo1-pill,
+.lo1 .lo1-pill{
+  background: var(--surface-primary);
+}
+
+/* Time pill (blue) */
+.rendered-markdown .lo1 .lo1-pill--time,
+.lo1 .lo1-pill--time{
+  background: var(--accent-50);
+  border-color: var(--accent-200);
+  color: var(--accent-700);
+}
+.rendered-markdown .lo1 .lo1-dot--time,
+.lo1 .lo1-dot--time{
+  background: var(--accent-600);
+}
+
+/* Mode pill (neutral) */
+.rendered-markdown .lo1 .lo1-pill--mode,
+.lo1 .lo1-pill--mode{
+  background: var(--slate-50);
+  border-color: var(--slate-200);
+  color: var(--slate-700);
+}
+.rendered-markdown .lo1 .lo1-dot--mode,
+.lo1 .lo1-dot--mode{
+  background: #94a3b8; /* slate-ish */
+}
+
+/* Deliverable pill (teal) */
+.rendered-markdown .lo1 .lo1-pill--deliverable,
+.lo1 .lo1-pill--deliverable{
+  background: var(--teal-50);
+  border-color: var(--teal-200);
+  color: var(--teal-700);
+}
+.rendered-markdown .lo1 .lo1-dot--deliverable,
+.lo1 .lo1-dot--deliverable{
+  background: var(--teal-500);
+}
+
+/* --- Optional: callout variants for Assumptions / Limitations --- */
+.rendered-markdown .lo1 .lo1-note--warn,
+.lo1 .lo1-note--warn{
+  border-left-color: var(--warn-700);
+  background: linear-gradient(90deg, var(--warn-50), #ffffff 58%);
+}
+.rendered-markdown .lo1 .lo1-note--warn strong,
+.lo1 .lo1-note--warn strong{
+  color: var(--warn-700);
+}
