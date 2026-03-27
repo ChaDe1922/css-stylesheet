@@ -1974,3 +1974,160 @@ details.lo1-obj[open] .lo1-chevron { transform: rotate(180deg); background: rgba
   margin: 0;              /* prevent double margins */
   height: 100%;           /* helps equal-height look */
 }
+
+
+/* =========================================================
+   A) Wider content column (keeps Codio sticky behavior intact)
+   Use Extra Guides CSS + stronger overrides to win specificity
+========================================================= */
+
+/* Most Codio guides wrap markdown in a constrained column.
+   This widens it without “breaking out” of the layout. */
+.rendered-markdown,
+.markdown-body,
+.guide-content,
+.guides-content {
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* =========================================================
+   B) Objective chip (Bloom/Stretch) placement: uniform right rail
+   - No HTML change required
+   - Keeps chip off the title text
+========================================================= */
+
+.lo1-obj-summary .lo1-obj-line1 {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 14px;
+}
+
+.lo1-obj-summary .lo1-obj-title {
+  min-width: 0;
+}
+
+.lo1-obj-summary .lo1-chip {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+/* If you want the chevron to feel like its own column */
+.lo1-obj-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 14px;
+  align-items: center;
+}
+
+.lo1-obj-left { min-width: 0; }
+.lo1-chevron { justify-self: end; }
+
+/* =========================================================
+   C) Success checklist: colored “checkbox” look
+   (Use <ul class="lo1-checklist"> … </ul>)
+========================================================= */
+
+.lo1-checklist {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.lo1-checklist li {
+  position: relative;
+  padding: 14px 14px 14px 44px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.02);
+}
+
+.lo1-checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+
+  /* “tasteful color” checkbox */
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* =========================================================
+   D) Assumptions + Limitations as a 2-panel section
+   (Use <section class="lo1-panels"> … </section>)
+========================================================= */
+
+.lo1-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .lo1-panels { grid-template-columns: 1fr; }
+}
+
+/* Make each note feel like a panel */
+.lo1-panels .lo1-note {
+  margin: 0; /* prevents stacked extra spacing */
+  height: 100%;
+}
+
+/* =========================================================
+   E) Sticky page title -> style like .lo1-kicker when Codio pins it
+========================================================= */
+
+/* Why this works:
+   Many sticky-title implementations set inline position: fixed (or fixed wrapper).
+   These selectors only “hit” when Codio is actively pinning the title.
+   If your Codio uses a class instead, see the note right below. */
+
+/* 1) Title becomes fixed via inline style */
+.rendered-markdown h1[style*="position:fixed"],
+.rendered-markdown h1[style*="position: fixed"],
+.rendered-markdown .page-title[style*="position:fixed"],
+.rendered-markdown .page-title[style*="position: fixed"] {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-secondary, #6b7280) !important;
+  line-height: 1.2 !important;
+}
+
+/* 2) If Codio pins via a wrapper that becomes fixed */
+*[style*="position:fixed"] h1,
+*[style*="position: fixed"] h1 {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-secondary, #6b7280) !important;
+  line-height: 1.2 !important;
+}
+
+/* NOTE (if the above doesn’t trigger):
+   Scroll until the title is sticky, right-click the sticky title -> Inspect,
+   and look for a class like “pinned / sticky / compact”.
+   Then add one rule like:
+
+   .that-sticky-class h1 { ...same styles... }
+
+   I can wire it precisely if you paste the sticky element’s HTML line/class list.
+*/
