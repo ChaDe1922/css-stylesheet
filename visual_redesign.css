@@ -3664,3 +3664,517 @@ details.lo1-obj[open] .lo1-chevron {
   font-size: 15.5px;
 }
 
+/* =========================================================
+   Codio Guides — LO1 (Learning Objectives) Template Styles
+   Purpose: A "looks like HTML" layout that can host Markdown inside
+   Authoring: wrap page content in <div class="lo1"> ... </div>
+   ========================================================= */
+
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* ---------------------------------------------------------
+   Design tokens (safe defaults)
+   If your Codio theme already defines these variables, these
+   will simply act as fallbacks.
+   --------------------------------------------------------- */
+:root {
+  --font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+
+  /* Surfaces */
+  --surface-page: #fcfcfd;
+  --surface-primary: #ffffff;
+  --surface-muted: #f2f4f7;
+
+  /* Borders */
+  --border-muted: #dde0e5;
+  --border-strong: #c2c7d0;
+
+  /* Text */
+  --text-primary: #1d1d1f;
+  --text-secondary: #5b616e;
+
+  /* Accent (Codio-ish blue) */
+  --accent-50: #eef4ff;
+  --accent-100: #e0eaff;
+  --accent-200: #c7d7ff;
+  --accent-500: #2e61f5;
+  --accent-600: #2454e6;
+  --accent-700: #1d46c2;
+
+  /* Status */
+  --good-50: #ecfdf3;
+  --good-100: #d1fadf;
+  --good-600: #039855;
+
+  --warn-50: #fffaeb;
+  --warn-100: #fef0c7;
+  --warn-700: #b54708;
+
+  --danger-50: #fef3f2;
+  --danger-100: #fee4e2;
+  --danger-600: #d92d20;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 36px;
+  --space-9: 40px;
+  --space-10: 48px;
+
+  /* Radius + shadow */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius: 12px;
+  --radius-lg: 16px;
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-sm: 0 2px 8px rgba(16, 24, 40, 0.08);
+  --shadow-md: 0 10px 28px rgba(16, 24, 40, 0.12);
+}
+
+/* ---------------------------------------------------------
+   Base (scoped)
+   --------------------------------------------------------- */
+.rendered-markdown .lo1,
+.lo1 {
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  background: transparent;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}
+
+.rendered-markdown .lo1 *,
+.lo1 * {
+  box-sizing: border-box;
+}
+
+.rendered-markdown .lo1 a,
+.lo1 a {
+  color: var(--accent-600);
+  text-decoration: none;
+}
+
+.rendered-markdown .lo1 a:hover,
+.lo1 a:hover {
+  text-decoration: underline;
+}
+
+.rendered-markdown .lo1 p,
+.lo1 p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.rendered-markdown .lo1 p + p,
+.lo1 p + p {
+  margin-top: var(--space-3);
+}
+
+.rendered-markdown .lo1 h1,
+.rendered-markdown .lo1 h2,
+.rendered-markdown .lo1 h3,
+.lo1 h1,
+.lo1 h2,
+.lo1 h3 {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.rendered-markdown .lo1 code,
+.lo1 code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.95em;
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-muted);
+  color: var(--text-primary);
+}
+
+.rendered-markdown .lo1 pre,
+.lo1 pre {
+  margin: 0;
+  padding: var(--space-4);
+  background: #0b1020;
+  border-radius: var(--radius-lg);
+  overflow: auto;
+  box-shadow: var(--shadow-xs);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rendered-markdown .lo1 pre code,
+.lo1 pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #e6eaff;
+  font-size: 0.92em;
+}
+
+/* ---------------------------------------------------------
+   Header
+   --------------------------------------------------------- */
+.rendered-markdown .lo1-header,
+.lo1-header {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface-primary), var(--surface-page));
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rendered-markdown .lo1-kicker,
+.lo1-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-700);
+}
+
+.rendered-markdown .lo1-title,
+.lo1-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.rendered-markdown .lo1-subtitle,
+.lo1-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 70ch;
+}
+
+.rendered-markdown .lo1-pills,
+.lo1-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.rendered-markdown .lo1-pill,
+.lo1-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-muted);
+  background: var(--surface-primary);
+  color: var(--text-secondary);
+}
+
+.rendered-markdown .lo1-pill--primary,
+.lo1-pill--primary {
+  border-color: var(--accent-200);
+  background: var(--accent-50);
+  color: var(--accent-700);
+}
+
+.rendered-markdown .lo1-pill--secondary,
+.lo1-pill--secondary {
+  border-color: var(--border-muted);
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------
+   Frames (sections)
+   --------------------------------------------------------- */
+.rendered-markdown .lo1-frame,
+.lo1-frame {
+  margin-top: var(--space-6);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-lg);
+  background: var(--surface-primary);
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-6);
+}
+
+.rendered-markdown .lo1-frame-head,
+.lo1-frame-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.rendered-markdown .lo1-frame-title,
+.lo1-frame-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.rendered-markdown .lo1-frame-desc,
+.lo1-frame-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 80ch;
+}
+
+/* Quick "spacer" helper used in the authoring skeleton */
+.rendered-markdown .lo1-gap-26 > * + *,
+.lo1-gap-26 > * + * {
+  margin-top: 26px;
+}
+
+/* Note callout inside frames */
+.rendered-markdown .lo1-note,
+.lo1-note {
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--accent-200);
+  background: var(--accent-50);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   "Start here" line
+   --------------------------------------------------------- */
+.rendered-markdown .lo1-start,
+.lo1-start {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-muted);
+  background: var(--surface-muted);
+}
+
+.rendered-markdown .lo1-dot,
+.lo1-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: var(--accent-500);
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------
+   Generic list styling inside LO
+   --------------------------------------------------------- */
+.rendered-markdown .lo1 ul,
+.rendered-markdown .lo1 ol,
+.lo1 ul,
+.lo1 ol {
+  margin: 0;
+  padding-left: 1.25em;
+  color: var(--text-secondary);
+}
+
+.rendered-markdown .lo1 li + li,
+.lo1 li + li {
+  margin-top: var(--space-2);
+}
+
+.rendered-markdown .lo1-list,
+.lo1-list {
+  padding-left: 1.15em;
+}
+
+.rendered-markdown .lo1-list li,
+.lo1-list li {
+  margin-top: var(--space-2);
+}
+
+/* ---------------------------------------------------------
+   Objectives accordion (details/summary)
+   --------------------------------------------------------- */
+.rendered-markdown .lo1-obj,
+.lo1-obj {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-lg);
+  background: var(--surface-primary);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+  margin-top: var(--space-3);
+}
+
+.rendered-markdown .lo1-obj-summary,
+.lo1-obj-summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.rendered-markdown .lo1-obj-summary::-webkit-details-marker,
+.lo1-obj-summary::-webkit-details-marker {
+  display: none;
+}
+
+.rendered-markdown .lo1-obj-left,
+.lo1-obj-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.rendered-markdown .lo1-obj-line1,
+.lo1-obj-line1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rendered-markdown .lo1-obj-title,
+.lo1-obj-title {
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.rendered-markdown .lo1-chip,
+.lo1-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-muted);
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rendered-markdown .lo1-chevron,
+.lo1-chevron {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+  color: var(--text-secondary);
+}
+
+.rendered-markdown .lo1-obj[open] .lo1-chevron,
+.lo1-obj[open] .lo1-chevron {
+  transform: rotate(180deg);
+}
+
+.rendered-markdown .lo1-obj-body,
+.lo1-obj-body {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--text-secondary);
+}
+
+.rendered-markdown .lo1-subframe,
+.lo1-subframe {
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-muted);
+  background: var(--surface-muted);
+}
+
+/* Focus states for keyboard navigation */
+.rendered-markdown .lo1-obj-summary:focus,
+.rendered-markdown .lo1-obj-summary:focus-visible,
+.lo1-obj-summary:focus,
+.lo1-obj-summary:focus-visible {
+  outline: 3px solid rgba(46, 97, 245, 0.25);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------
+   Success list (checkmark bullets)
+   --------------------------------------------------------- */
+.rendered-markdown .lo1-success ul,
+.lo1-success ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.rendered-markdown .lo1-success li,
+.lo1-success li {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-2) 0;
+  color: var(--text-secondary);
+}
+
+.rendered-markdown .lo1-check,
+.lo1-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--good-50);
+  border: 1px solid var(--good-100);
+  color: var(--good-600);
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.rendered-markdown .lo1-check svg,
+.lo1-check svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
+@media (max-width: 720px) {
+  .rendered-markdown .lo1,
+  .lo1 {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .rendered-markdown .lo1-header,
+  .lo1-header {
+    padding: var(--space-6);
+  }
+
+  .rendered-markdown .lo1-title,
+  .lo1-title {
+    font-size: 26px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rendered-markdown .lo1-chevron,
+  .lo1-chevron {
+    transition: none;
+  }
+}
