@@ -1,23 +1,218 @@
-/* ==========================================================================
-   CODIO TARGETING PATCH
-   Purpose:
-   - Keep Codio behavior
-   - Target Codio-native UI/components directly
-   - Keep your newer visual system and LO1 template
-   ========================================================================== */
+/*
+  Codio Guides CSS — Unified Stylesheet
+  Aligned with Codio Brand Guidelines v01
 
-/* --------------------------------------------------------------------------
-   0. Core layout + typography
-   -------------------------------------------------------------------------- */
+  Structure:
+  1.  Google Font Import
+  2.  Design Tokens (:root)
+  3.  Dark Mode Tokens
+  4.  Base / Reset
+  5.  Typography
+  6.  Links
+  7.  Code & Pre
+  8.  Tables
+  9.  Content Elements (blockquote, hr, img, mark, etc.)
+  10. Codio Assessment Components
+  11. Codio Callout Blocks
+  12. Codio Buttons
+  13. Codio UI Helpers (toggle, arrows, guide bot, theme toggle)
+  14. LO1 Template (Learning Objectives)
+  15. Lesson Template (ls2b)
+  16. Coding Exercise Template (ce1h)
+  17. Responsive
+  18. Reduced Motion
+*/
 
-html {
-  font-size: 18px;
+/* =============================================================
+   1. Google Font Import
+   ============================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+
+/* =============================================================
+   2. Design Tokens — :root
+   ============================================================= */
+:root {
+
+  /* ── Brand Palette ── */
+  --color-black:          #000000;
+  --color-white:          #FFFFFF;
+  --color-codio-blue:     #2BAEFF;
+  --color-codio-purple:   #9747FF;
+  --color-codio-green:    #25EAE0;
+  --color-dark-grey:      #151515;
+  --color-hover-grey:     #2F2F2F;
+  --color-mid-grey:       #3B3B3B;
+  --color-inter-grey:     #6F6F6F;
+  --color-light-grey:     #EDECED;
+
+  /* ── RGB Triplets (for rgba() usage) ── */
+  --codio-blue-rgb:       43, 174, 255;
+  --codio-purple-rgb:     151, 71, 255;
+  --codio-green-rgb:      37, 234, 224;
+
+  /* ── Surfaces (light mode) ── */
+  --surface-page:         #F7F8FA;
+  --surface-primary:      #ffffff;
+  --surface-secondary:    #EDECED;
+  --surface-tertiary:     #f5f9f5;
+  --surface-muted:        #f5f7fb;
+  --surface-soft:         #f9fafb;
+
+  /* ── Borders ── */
+  --border-color:         #EDECED;
+  --border-muted:         rgba(17, 24, 39, 0.10);
+  --border-strong:        rgba(17, 24, 39, 0.16);
+
+  /* ── Text ── */
+  --text-primary:         #111827;
+  --text-secondary:       #5b616e;
+  --text-muted:           #2F2F2F;
+  --text-strong:          #111827;
+
+  /* ── Typography ── */
+  --font-family:          'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto,
+                          'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji',
+                          'Segoe UI Emoji', sans-serif;
+  --font-size-base:       18px;
+  --font-size-sm:         14px;
+  --font-size-md:         16px;
+  --font-size-lg:         18px;
+  --font-size-xl:         20px;
+  --font-size-2xl:        24px;
+  --font-size-3xl:        32px;
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-base:     1.5;
+  --line-height-tight:    1.2;
+  --line-height-snug:     1.35;
+  --line-height-normal:   1.55;
+
+  /* ── Spacing ── */
+  --spacing-xs:   4px;
+  --spacing-sm:   8px;
+  --spacing-md:   16px;
+  --spacing-lg:   24px;
+  --spacing-xl:   32px;
+
+  /* Alias spacing scale (space-N) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  36px;
+  --space-9:  40px;
+  --space-10: 48px;
+
+  /* ── Border Radius ── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.12);
+
+  /* ── Readable line length ── */
+  --measure: 68ch;
+
+  /* ── Callout tokens ── */
+  --callout-radius:       22px;
+  --callout-pad-y:        18px;
+  --callout-pad-x:        20px;
+  --callout-icon:         44px;
+  --callout-gap:          14px;
+  --callout-rail:         6px;
+  --callout-bg-alpha:     0.07;
+  --callout-border-alpha: 0.22;
+
+  /* ── Callout internal surfaces ── */
+  --surface-0: #ffffff;
+  --text-0:    #0b0b0c;
+  --text-1:    rgba(11, 11, 12, 0.78);
+  --shadow-1:  0 10px 24px rgba(0, 0, 0, 0.08);
+
+  /* ── Status colours ── */
+  --good-50:    #ecfdf3;
+  --good-100:   #d1fadf;
+  --good-600:   #039855;
+  --warn-50:    #fffaeb;
+  --warn-100:   #fef0c7;
+  --warn-700:   #b54708;
+  --danger-50:  #fef3f2;
+  --danger-100: #fee4e2;
+  --danger-600: #d92d20;
+  --teal-500:   #14b8a6;
+  --teal-600:   #0f766e;
+
+  /* ── Accent ramp (blue) ── */
+  --accent-50:  #eef4ff;
+  --accent-100: #e0eaff;
+  --accent-200: #c7d7ff;
+  --accent-500: #2e61f5;
+  --accent-600: #2454e6;
+  --accent-700: #1d46c2;
+
+  /* ── LO1 container max-width ── */
+  --lo1-max: 1100px;
 }
+
+
+/* =============================================================
+   3. Dark Mode Tokens
+   ============================================================= */
+[data-theme="dark"],
+html[data-theme="dark"],
+body.theme-dark,
+body.dark {
+  --surface-page:      #0F1012;
+  --surface-primary:   #1A1A1A;
+  --surface-secondary: #2F2F2F;
+  --surface-tertiary:  #3B3B3B;
+  --surface-muted:     #1e2027;
+  --surface-soft:      #181a1f;
+  --surface-0:         #0b0c0e;
+
+  --border-color:      #4A4A4A;
+  --border-muted:      rgba(255, 255, 255, 0.10);
+  --border-strong:     rgba(255, 255, 255, 0.18);
+
+  --text-primary:      #f6f7f8;
+  --text-secondary:    #B0B0B0;
+  --text-muted:        #808080;
+  --text-strong:       #f6f7f8;
+  --text-0:            #f6f7f8;
+  --text-1:            rgba(246, 247, 248, 0.78);
+
+  --shadow-1:          0 14px 30px rgba(0, 0, 0, 0.45);
+  --callout-bg-alpha:  0.14;
+  --callout-border-alpha: 0.28;
+}
+
+
+/* =============================================================
+   4. Base / Reset
+   ============================================================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { font-size: var(--font-size-base); }
 
 body {
   margin: 0 60px 30px;
-  font-size: 18px;
-  line-height: 1.55;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
   font-family: var(--font-family);
   color: var(--text-primary);
   background-color: var(--surface-primary);
@@ -28,21 +223,19 @@ body {
   padding-bottom: 1px;
 }
 
-@media only screen and (max-width: 600px) {
-  body { margin: 0 30px 30px; }
-}
+@media only screen and (max-width: 600px) { body { margin: 0 30px 30px; } }
+@media only screen and (max-width: 400px) { body { margin: 0 20px 30px; } }
 
-@media only screen and (max-width: 400px) {
-  body { margin: 0 20px 30px; }
-}
+
+/* =============================================================
+   5. Typography
+   ============================================================= */
 
 /* Main reading container */
 .rendered-markdown {
   font-family: var(--font-family);
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
   font-weight: 400;
   color: var(--text-primary);
   line-height: var(--line-height-base);
@@ -53,12 +246,7 @@ body {
   outline-offset: 2px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family);
   font-weight: 700;
   margin-top: var(--spacing-xl);
@@ -67,138 +255,109 @@ h6 {
   line-height: 1.2;
 }
 
-strong,
-b {
-  font-weight: 700;
-}
+strong, b { font-weight: 600; }
 
-h1 {
-  font-size: clamp(2.5rem, 3vw, 3.25rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  padding-bottom: 2px;
-}
-
-h2 {
-  border-bottom: 1px solid var(--border-color);
-  font-size: clamp(1.7rem, 2vw, 2.15rem);
-  padding-bottom: var(--spacing-xs);
-}
-
-h3 {
-  font-size: 1.4rem;
-}
-
-h4 {
-  font-size: 1.2rem;
-}
-
-h5,
-h6 {
-  font-size: 1rem;
-}
+h1 { font-size: 1.8em; font-weight: 700; }
+h2 { border-bottom: 1px solid var(--border-color); font-size: 1.6em; padding-bottom: var(--spacing-xs); }
+h3 { font-size: 1.4em; }
+h4 { font-size: 1.2em; }
+h5, h6 { font-size: 1em; }
 
 .p-tag,
 blockquote,
 ul,
 ol,
 dl,
-table {
-  margin: 0 0 var(--spacing-lg) 0;
+table { margin: 0 0 var(--spacing-lg) 0; }
+
+li { margin-bottom: var(--spacing-xs); }
+li:last-of-type { margin-bottom: 0; }
+
+dt { font-weight: 600; color: var(--text-primary); }
+
+ul { padding-left: 1.3em; }
+ul ul { padding-left: 1.5em; margin: 0; }
+
+abbr { border-bottom: 1px dashed var(--border-color); cursor: help; }
+
+mark {
+  background-color: rgba(43, 174, 255, 0.2);
+  padding: 0.1em 0.2em;
+  border-radius: var(--radius-xs);
+  color: var(--text-primary);
 }
 
-li {
-  margin-bottom: var(--spacing-xs);
+footer {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  font-family: var(--font-family);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--border-color);
 }
 
-li:last-of-type {
-  margin-bottom: 0;
+footer button {
+  text-decoration: none;
+  background-image: none;
+  line-height: 1.5em;
+  border-radius: var(--radius-md);
+  padding: 0 var(--spacing-sm);
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  text-transform: none;
+  min-width: 1em;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin-right: var(--spacing-lg);
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
 }
 
-ul {
-  padding-left: 1.3em;
+footer button:hover {
+  border-color: var(--color-codio-blue);
+  color: var(--color-codio-blue);
 }
 
-ul ul {
-  padding-left: 1.5em;
-  margin: 0;
+/* Assessment name / last-run */
+.codio-assessment-name {
+  font-size: 150%;
+  max-width: 80%;
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* --------------------------------------------------------------------------
-   1. Sticky page title — target Codio directly
-   -------------------------------------------------------------------------- */
+.codio-assessment-last-run { font-size: 70%; font-family: var(--font-family); }
+.codio-assessment-last-run span { color: var(--text-muted); }
 
-.page-title {
-  margin-top: 10px;
-  line-height: 1.1em;
-  color: #8e8e8e;
-  transition: all 0.6s ease-in-out;
-}
 
-/* Keep Codio sticky behavior, but restyle when shrunk */
-.page-title.shrink {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  z-index: 9;
-  background: rgba(255, 255, 255, 0.98);
-  width: 100%;
-  margin-top: 0;
-  padding: 10px 5%;
-  box-shadow: 1px 0 20px #fff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  /* lo1-kicker feel */
-  font-size: 12px !important;
-  line-height: 1.2 !important;
-  font-style: normal !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  color: var(--text-secondary) !important;
-}
-
-.page-title.shrink .page-title-text {
-  max-width: 1100px;
-  width: 100%;
-}
-
-/* --------------------------------------------------------------------------
-   2. Links, code, tables, content elements
-   -------------------------------------------------------------------------- */
-
+/* =============================================================
+   6. Links
+   ============================================================= */
 a {
   color: var(--color-codio-blue);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: all 0.2s ease;
   cursor: pointer;
-  font-weight: 600;
 }
 
-a:hover {
-  color: #1A9FE6;
-  border-bottom-color: #1A9FE6;
-}
+a:hover { color: #1A9FE6; border-bottom-color: #1A9FE6; }
+a:focus { outline: 2px solid var(--color-codio-blue); outline-offset: 2px; }
+a::-moz-selection { background: rgba(43, 174, 255, 0.2); }
+a::selection     { background: rgba(43, 174, 255, 0.2); }
 
-a:focus {
-  outline: 2px solid var(--color-codio-blue);
-  outline-offset: 2px;
-}
+.docs-body a:visited { color: var(--color-codio-purple); }
 
-.docs-body a:visited {
-  color: var(--color-codio-purple);
-}
 
+/* =============================================================
+   7. Code & Pre
+   ============================================================= */
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.87em;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 0.85em;
   font-weight: 400;
-  padding: 0.2em 0.45em;
+  font-style: normal;
+  padding: 0.2em 0.4em;
   background-color: var(--surface-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xs);
@@ -206,7 +365,7 @@ code {
 }
 
 pre {
-  margin: 1em 0;
+  margin: var(--spacing-lg) 0;
   background-color: var(--surface-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -214,71 +373,96 @@ pre {
 }
 
 pre code {
-  padding: 20px 28px;
+  padding: var(--spacing-lg);
   display: block;
   overflow-x: auto;
   background: none;
   border: none;
-  border-radius: 0;
   font-size: 0.9em;
+  line-height: 1.5;
 }
 
-.code-block {
-  position: relative;
-}
+pre code b,
+pre code strong { font-weight: 600; }
+
+.code-block { position: relative; }
 
 .btn-clipboard {
   background-image: url('https://static-assets.codio.com/client/assets/images/guides/clipboard.822a38c12e476e8c.svg');
   background-position: center;
   background-repeat: no-repeat;
-  background-color: transparent;
+  background-color: var(--surface-primary);
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
   width: 24px;
   height: 24px;
   cursor: pointer;
-  opacity: 0.55;
+  opacity: 0.6;
   border: 1px solid var(--border-color);
-  border-radius: 999px;
-  background-size: 14px 14px;
+  border-radius: var(--radius-xs);
+  background-size: 16px 16px;
   transition: all 0.2s ease;
 }
 
-.btn-clipboard:hover {
-  opacity: 0.9;
-  background-color: var(--surface-primary);
-}
+.btn-clipboard:hover { opacity: 1; background-color: var(--surface-secondary); }
 
+/* Syntax highlight (hljs — VS-style) */
+.hljs                         { background: white; color: black; }
+.hljs-comment, .hljs-quote, .hljs-variable { color: #008000; }
+.hljs-keyword, .hljs-selector-tag,
+.hljs-built_in, .hljs-name, .hljs-tag      { color: #00f; }
+.hljs-string, .hljs-title, .hljs-section,
+.hljs-attribute, .hljs-literal, .hljs-template-tag,
+.hljs-template-variable, .hljs-type,
+.hljs-addition                { color: #a31515; }
+.hljs-deletion, .hljs-selector-attr,
+.hljs-selector-pseudo, .hljs-meta { color: #2b91af; }
+.hljs-doctag                  { color: #808080; }
+.hljs-attr                    { color: #f00; }
+.hljs-symbol, .hljs-bullet, .hljs-link { color: #00b0e8; }
+.hljs-emphasis                { font-style: italic; }
+.hljs-strong                  { font-weight: bold; }
+pre code.hljs  { display: block; overflow-x: auto; padding: 1em; }
+code.hljs      { padding: 3px 5px; }
+
+
+/* =============================================================
+   8. Tables
+   ============================================================= */
 table {
   border-collapse: collapse;
   width: 100%;
   font-size: inherit;
+  font-family: var(--font-family);
+  margin: 0 0 var(--spacing-lg) 0;
 }
 
 table th,
 table td {
-  padding: 14px;
-}
-
-table thead tr,
-table tbody tr:first-child {
-  border-top: 1px solid var(--border-color);
-}
-
-table tbody tr:nth-child(2n) {
-  background-color: var(--surface-muted);
-}
-
-table tbody tr:last-child {
+  padding: var(--spacing-md);
+  text-align: left;
   border-bottom: 1px solid var(--border-color);
 }
 
-abbr {
-  border-bottom: 1px dashed var(--border-color);
-  cursor: help;
+table th { text-align: left; font-family: var(--font-family); font-weight: 600; }
+
+table thead th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background-color: var(--surface-secondary);
+  border-bottom: 2px solid var(--border-color);
 }
 
+table tbody tr:first-child td { border-top: 1px solid var(--border-color); }
+table tbody tr:nth-child(even) { background-color: var(--surface-secondary); }
+table tbody tr:hover { background-color: rgba(43, 174, 255, 0.05); }
+table tbody tr:last-child td { border-bottom: none; }
+
+
+/* =============================================================
+   9. Content Elements
+   ============================================================= */
 hr {
   border: none;
   border-top: 1px solid var(--border-color);
@@ -294,46 +478,46 @@ img {
   border-radius: var(--radius-md);
 }
 
+.guides-image { cursor: zoom-in; }
+.codio-challenge .guides-image { cursor: default; }
+
 blockquote {
   padding: var(--spacing-md) var(--spacing-lg);
   border-left: 3px solid var(--color-codio-blue);
   border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
   font-style: italic;
+  margin: var(--spacing-lg) 0;
   color: var(--text-secondary);
   background-color: rgba(43, 174, 255, 0.05);
 }
 
-mark {
-  background-color: rgba(43, 174, 255, 0.2);
-  padding: 0.1em 0.2em;
+/* image-table */
+.codio-image-table { margin: var(--spacing-lg) 0; }
+.codio-image-table h3 {
+  font-family: var(--font-family);
+  color: var(--color-white);
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+  background-color: var(--color-dark-grey);
+  margin: var(--spacing-xl) 0 var(--spacing-sm) 0;
   border-radius: var(--radius-xs);
 }
 
-/* --------------------------------------------------------------------------
-   3. Codio assessment components
-   -------------------------------------------------------------------------- */
+.codio-image { max-width: 500px; margin: 1em auto; }
+.codio-image img { border: 1px solid #c7d5f6; border-radius: 2px; }
+.codio-image p { margin: 0; }
+.codio-image p + p { font-size: 1em; text-align: center; margin: 1em 0; }
 
-.codio-assessment-name {
-  font-size: 150%;
-  text-overflow: ellipsis;
-  max-width: 80%;
-  overflow: hidden;
-  max-height: 1.5em;
-  white-space: nowrap;
-  font-family: var(--font-family);
-  font-weight: 700;
-  color: var(--text-primary);
-}
+.codio-interactive-table { overflow-x: auto; }
 
-.codio-assessment-last-run {
-  font-size: 70%;
-  font-family: var(--font-family);
-}
 
-.codio-assessment-last-run span {
-  color: var(--text-muted);
-}
+/* =============================================================
+   10. Codio Assessment Components
+   ============================================================= */
 
+/* ── Guidance container ── */
 .codio-assessment-guidance-container {
   --accent-rgb: var(--codio-green-rgb);
   position: relative;
@@ -349,40 +533,17 @@ mark {
   font-size: 1rem;
   line-height: 1.65;
   font-family: var(--font-family);
+  transform: none !important;
   transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
+.codio-assessment-guidance-container:hover { box-shadow: 0 14px 32px rgba(0,0,0,0.12); }
+.codio-assessment-guidance-title { margin: 0 0 0.35em 0; font-size: 1.15em; font-weight: 700; border: none; padding: 0; color: var(--text-0); }
+.codio-assessment-guidance-text  { color: var(--text-1); margin: 0; }
 
-.codio-assessment-guidance-container:hover {
-  box-shadow: 0 14px 32px rgba(0,0,0,0.12);
-}
-
-.codio-assessment-guidance-title {
-  margin: 0 0 0.35em 0;
-  font-size: 1.15em;
-  font-weight: 700;
-  border: none;
-  padding: 0;
-  color: var(--text-0);
-}
-
-.codio-assessment-guidance-text {
-  color: var(--text-1);
-  margin: 0;
-}
-
-.codio-button-result.hide {
-  display: none;
-}
-
-.codio-button-result {
-  font-size: 100%;
-  font-family: var(--font-family);
-}
-
-.codio-button-disabled {
-  cursor: default;
-  opacity: 0.5;
-}
+/* ── Assessment button states ── */
+.codio-button-result.hide { display: none; }
+.codio-button-result { font-size: 100%; font-family: var(--font-family); }
+.codio-button-disabled { cursor: default; opacity: 0.5; }
 
 .codio-button.codio-button-type-assessment {
   text-shadow: none;
@@ -391,280 +552,85 @@ mark {
   font-family: var(--font-family);
   font-weight: 500;
 }
-
 .codio-button.codio-button-type-assessment-reset,
-.codio-button.codio-button-type-assessment-modify {
-  margin-left: var(--spacing-sm);
-  text-transform: none;
-}
+.codio-button.codio-button-type-assessment-modify { margin-left: var(--spacing-sm); text-transform: none; }
+.codio-button.codio-button-type-assessment-validate { margin-right: var(--spacing-sm); text-transform: none; }
+.codio-math-progress { margin-left: var(--spacing-sm); display: inline-block; position: relative; top: 5px; }
+.codio-assessment-instructions-fieldset { min-width: 0; border: 0; }
+.codio-assessment-instructions-legend { max-width: 100%; float: left; font-family: var(--font-family); font-weight: 600; }
 
-.codio-button.codio-button-type-assessment-validate {
-  margin-right: var(--spacing-sm);
-  text-transform: none;
-}
-
-.codio-math-progress {
-  margin-left: var(--spacing-sm);
-  display: inline-block;
-  position: relative;
-  top: 5px;
-}
-
-.codio-assessment-instructions-fieldset {
-  min-width: 0;
-  border: 0;
-}
-
-.codio-assessment-instructions-legend {
-  max-width: 100%;
-  float: left;
-  font-family: var(--font-family);
-  font-weight: 600;
-}
-
-/* Radio buttons */
+/* ── Radio buttons ── */
 .codio-button-type-assessment-multiple-radio {
   padding-top: 0;
   margin: var(--spacing-lg) 0;
   clear: both;
   font-family: var(--font-family);
 }
-
-.codio-button-type-assessment-multiple-radio:first-of-type {
-  margin-top: var(--spacing-lg);
-}
-
-.codio-button-type-assessment-multiple-radio:last-of-type {
-  margin-bottom: var(--spacing-lg);
-}
-
-.codio-button-type-assessment-multiple-radio input {
-  position: absolute;
-  opacity: 0;
-}
-
-.codio-button-type-assessment-multiple-radio input:focus + label {
-  outline: 2px solid var(--color-codio-blue);
-  outline-offset: 2px;
-  position: relative;
-}
-
-.codio-button-type-assessment-multiple-radio label {
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  padding-left: 28px;
-  min-height: 24px;
-  position: relative;
-}
-
-.codio-button-type-assessment-multiple-radio label i {
-  background-color: var(--surface-primary);
-  border: 2px solid #6F6F6F;
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  transition: all 0.2s ease;
-  top: 3px;
-  left: 0;
-  flex-shrink: 0;
-}
-
-.codio-button-type-assessment-multiple-radio:hover label i {
-  border-color: var(--color-codio-blue);
-}
-
-.codio-button-type-assessment-multiple-radio label i::before {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  content: '';
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: transparent;
-  transition: all 0.2s ease;
-}
-
-.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-done:hover label i {
-  border-color: var(--color-codio-green);
-}
-
-.codio-button-type-assessment-multiple-radio input:checked + label i {
-  border-color: var(--color-codio-blue);
-}
-
-.codio-button-type-assessment-multiple-radio input:checked + label i::before {
-  background-color: var(--color-codio-blue);
-}
+.codio-button-type-assessment-multiple-radio:first-of-type { margin-top: var(--spacing-lg); }
+.codio-button-type-assessment-multiple-radio:last-of-type  { margin-bottom: var(--spacing-lg); }
+.codio-button-type-assessment-multiple-radio input { position: absolute; opacity: 0; }
+.codio-button-type-assessment-multiple-radio input:focus + label { outline: 2px solid var(--color-codio-blue); outline-offset: 2px; position: relative; }
+.codio-button-type-assessment-multiple-radio label { display: flex; align-items: flex-start; cursor: pointer; padding-left: 28px; min-height: 24px; position: relative; }
+.codio-button-type-assessment-multiple-radio label i { background-color: var(--surface-primary); border: 2px solid #6F6F6F; height: 18px; width: 18px; border-radius: 50%; display: inline-block; position: absolute; transition: all 0.2s ease; top: 3px; left: 0; flex-shrink: 0; }
+.codio-button-type-assessment-multiple-radio:hover label i { border-color: var(--color-codio-blue); }
+.codio-button-type-assessment-multiple-radio label i::before { height: 10px; width: 10px; border-radius: 50%; content: ''; display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: transparent; transition: all 0.2s ease; }
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-done:hover label i { border-color: var(--color-codio-green); }
+.codio-button-type-assessment-multiple-radio input:checked + label i { border-color: var(--color-codio-blue); }
+.codio-button-type-assessment-multiple-radio input:checked + label i::before { background-color: var(--color-codio-blue); border-radius: 50%; content: ''; }
 
 .codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok:hover input:checked + label i,
 .codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok input:checked + label i,
 .codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok:hover label i,
-.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok label i {
-  border-color: var(--color-codio-green);
-}
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok label i { border-color: var(--color-codio-green); }
 
 .codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok input:checked + label i::before,
-.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok label i::before {
-  background-color: var(--color-codio-green);
-  border-color: var(--color-codio-green);
-  background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg");
-  background-size: 140%;
-  background-position: center;
-}
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok label i::before { background-color: var(--color-codio-green); border-color: var(--color-codio-green); background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg"); background-size: 140%; background-position: center; }
 
 .codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong:hover input:checked + label i,
-.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong input:checked + label i {
-  border-color: #E86A6B;
-}
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong input:checked + label i { border-color: #E86A6B; }
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong input:checked + label i::before { background-color: #E86A6B; border-color: #E86A6B; background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_white.5b6a90457c6a25e7.svg"); }
 
-.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong input:checked + label i::before {
-  background-color: #E86A6B;
-  border-color: #E86A6B;
-  background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_white.5b6a90457c6a25e7.svg");
-  background-size: 140%;
-  background-position: center;
-}
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-wrong input:checked + label i::after,
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok input:checked + label i::after,
+.codio-button-type-assessment-multiple-radio.codio-assessment-multiple-ok label i::after { color: var(--color-white); position: relative; top: -10px; font-style: normal; font-size: 8px; left: 3px; }
 
-.codio-challenge a.codio-assessment-disabled {
-  cursor: not-allowed;
-}
+.codio-challenge a.codio-assessment-disabled { cursor: not-allowed; }
 
-/* Checkboxes */
+/* ── Checkboxes ── */
 .codio-button-type-assessment-multiple-checkbox {
   padding-top: 0;
   margin: var(--spacing-lg) 0;
   clear: both;
   font-family: var(--font-family);
 }
-
-.codio-button-type-assessment-multiple-checkbox:first-of-type {
-  margin-top: var(--spacing-lg);
-}
-
-.codio-button-type-assessment-multiple-checkbox:last-of-type {
-  margin-bottom: var(--spacing-lg);
-}
-
-.codio-button-type-assessment-multiple-checkbox input {
-  position: absolute;
-  opacity: 0;
-}
-
-.codio-button-type-assessment-multiple-checkbox input:focus + label {
-  outline: 2px solid var(--color-codio-blue);
-  outline-offset: 2px;
-  position: relative;
-}
-
-.codio-button-type-assessment-multiple-checkbox label {
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  padding-left: 24px;
-}
-
-.codio-button-type-assessment-multiple-checkbox label i {
-  background-color: var(--surface-primary);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-xs);
-  height: 16px;
-  width: 16px;
-  content: '';
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  transition: all 0.2s ease;
-}
-
-.codio-button-type-assessment-multiple-checkbox:hover label i {
-  border-color: var(--color-codio-blue);
-}
-
-.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-done:hover label i {
-  border-color: var(--color-codio-green);
-}
-
-.codio-button-type-assessment-multiple-checkbox input:checked + label i {
-  background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg");
-  background-size: 12px;
-  background-color: var(--color-codio-blue);
-  background-position: center;
-  background-repeat: no-repeat;
-  border-color: var(--color-codio-blue);
-}
-
-.codio-button-type-assessment-multiple-checkbox label i::before {
-  height: 20px;
-  width: 20px;
-  border-radius: var(--radius-md);
-  content: '';
-  display: inline-block;
-  margin-left: -35px;
-  margin-top: -4px;
-  background-position: center;
-}
-
+.codio-button-type-assessment-multiple-checkbox:first-of-type { margin-top: var(--spacing-lg); }
+.codio-button-type-assessment-multiple-checkbox:last-of-type  { margin-bottom: var(--spacing-lg); }
+.codio-button-type-assessment-multiple-checkbox input { position: absolute; opacity: 0; }
+.codio-button-type-assessment-multiple-checkbox input:focus + label { outline: 2px solid var(--color-codio-blue); outline-offset: 2px; position: relative; }
+.codio-button-type-assessment-multiple-checkbox label i { background-color: var(--surface-primary); border: 2px solid var(--border-color); border-radius: var(--radius-xs); height: 16px; width: 16px; content: ''; display: inline-block; position: absolute; top: 50%; transform: translateY(-50%); left: 0; transition: all 0.2s ease; }
+.codio-button-type-assessment-multiple-checkbox label { display: flex; align-items: center; position: relative; cursor: pointer; padding-left: 24px; }
+.codio-button-type-assessment-multiple-checkbox:hover label i { border-color: var(--color-codio-blue); }
+.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-done:hover label i { border-color: var(--color-codio-green); }
+.codio-button-type-assessment-multiple-checkbox input:checked + label i { background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg"); background-size: 12px; background-color: var(--color-codio-blue); background-position: center; background-repeat: no-repeat; border-color: var(--color-codio-blue); }
+.codio-button-type-assessment-multiple-checkbox label i::before { height: 20px; width: 20px; border-radius: var(--radius-md); content: ''; display: inline-block; margin-left: -35px; margin-top: -4px; background-position: center; }
 .codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-ok input:checked + label i::before,
-.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-ok label i::before {
-  background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg");
-  background-color: var(--color-codio-green);
-}
-
+.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-ok label i::before { background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg"); background-color: var(--color-codio-green); }
 .codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-wrong input:checked + label i::before,
-.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-wrong label i::before {
-  background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_white.5b6a90457c6a25e7.svg");
-  background-color: #E86A6B;
-}
+.codio-button-type-assessment-multiple-checkbox.codio-assessment-multiple-wrong label i::before { background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_white.5b6a90457c6a25e7.svg"); background-color: #E86A6B; }
 
-.codio-button-type-assessment-multiple-answer {
-  margin: 0;
-  padding-left: 30px;
-  clear: both;
-  font-family: var(--font-family);
-}
+.codio-button-type-assessment-multiple-answer { margin: 0; padding-left: 30px; clear: both; font-family: var(--font-family); }
+.codio-button-type-assessment-multiple-answer .p-tag { margin: 0; }
 
-.codio-button-type-assessment-multiple-answer .p-tag {
-  margin: 0;
-}
-
-/* Fill in the blanks */
-.codio-fill-in-the-blanks {
-  margin-bottom: var(--spacing-xl);
-  font-family: var(--font-family);
-}
-
-.codio-fill-in-the-blanks .p-tag > div {
-  display: inline-flex !important;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.codio-fib-simple-wrapper {
-  display: inline-flex;
-  align-items: center;
-  margin: 0 4px;
-}
-
-.codio-fib-simple-wrapper p {
-  margin: 2px 0;
-}
-
-.codio-fill-in-the-blanks .codio-md-line {
-  margin: 0;
-  line-height: 1.4em;
-}
+/* ── Fill in the Blanks ── */
+.codio-fill-in-the-blanks { margin-bottom: var(--spacing-xl); font-family: var(--font-family); }
+.codio-fill-in-the-blanks .p-tag > div { display: inline-flex !important; flex-wrap: wrap; align-items: center; }
+.codio-fib-simple-wrapper { display: inline-flex; align-items: center; margin: 0 4px; }
+.codio-fib-simple-wrapper p { margin: 2px 0; }
+.codio-fill-in-the-blanks .codio-md-line { margin: 0; line-height: 1.4em; }
 
 .codio-fib-simple-input {
   font-family: var(--font-family);
+  font-weight: 400;
   font-size: 1em;
   display: inline-block;
   padding: 0.2em 0.4em;
@@ -673,613 +639,1495 @@ mark {
   line-height: 1.3em;
   border: 1px solid var(--color-codio-blue);
   color: var(--text-primary);
+  transition: all 0.2s ease;
   min-width: 80px;
   text-align: center;
 }
+.codio-fib-simple-input:focus { outline: none; border-color: var(--color-codio-blue); background-color: var(--surface-primary); }
+.codio-fib-simple-input:hover { border-color: var(--color-codio-blue); }
 
-.codio-fib-simple-input:focus {
-  outline: none;
-  border-color: var(--color-codio-blue);
-}
+.codio-assessment-fib-ok,
+.codio-assessment-fib-wrong { border-radius: var(--radius-xs); }
+.codio-assessment-fib-ok    { background-color: rgba(37, 234, 224, 0.1); border: 1px solid var(--color-codio-green); }
+.codio-assessment-fib-wrong { background-color: rgba(232, 106, 107, 0.1); border: 1px solid #E86A6B; text-decoration: line-through; }
+.codio-assessment-ecornell-fib-incorrect-entry { border: 2px solid #E86A6B; }
 
-.codio-fib-select {
-  display: inline-block;
-  margin: 1px var(--spacing-xs);
-  position: relative;
-  vertical-align: middle;
-}
-
-.fib-react-select__control {
-  min-height: 32px;
-  border: 1px solid var(--color-codio-blue);
-  border-radius: var(--radius-xs);
-  font-family: var(--font-family);
+/* eFIB feedback dots */
+.codio-assessment-ecornell-fib-extra-feedback-correct,
+.codio-assessment-ecornell-fib-extra-feedback-wrong {
+  height: 16px; width: 16px; border-radius: 50%; content: ''; display: inline-block;
+  transition: all 0.2s ease; position: relative; vertical-align: middle; margin-right: 2px;
   background-color: var(--surface-primary);
 }
-
-.fib-react-select__value-container {
-  padding: 0 var(--spacing-sm);
+.codio-assessment-ecornell-fib-extra-feedback-correct { border: 2px solid var(--color-codio-green); }
+.codio-assessment-ecornell-fib-extra-feedback-correct::after { background-color: var(--color-codio-green); background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark.6db2a12b0f346905.svg"); }
+.codio-assessment-ecornell-fib-extra-feedback-wrong { border: 2px solid #E86A6B; }
+.codio-assessment-ecornell-fib-extra-feedback-wrong::after { background-color: #E86A6B; background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_white.5b6a90457c6a25e7.svg"); }
+.codio-assessment-ecornell-fib-extra-feedback-correct::after,
+.codio-assessment-ecornell-fib-extra-feedback-wrong::after {
+  border-radius: 50%; width: 8px; height: 8px; display: block; content: '';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background-size: contain; background-position: center; background-repeat: no-repeat;
 }
 
-.fib-react-select__input {
-  margin: 0 2px;
-  padding: 0;
-}
-
+/* ── FIB Select (react-select) ── */
+.codio-fib-select { display: inline-block; margin: 1px var(--spacing-xs); position: relative; vertical-align: middle; }
+.fib-react-select__control { min-height: 32px; border: 1px solid var(--color-codio-blue); border-radius: var(--radius-xs); font-family: var(--font-family); background-color: var(--surface-primary); }
+.fib-react-select__control:hover { border-color: var(--color-codio-blue); }
+.fib-react-select__control:focus-within { border-color: var(--color-codio-blue); outline: 2px solid var(--color-codio-blue); outline-offset: -2px; }
+.fib-react-select__value-container { padding: 0 var(--spacing-sm); }
+.fib-react-select__input { margin: 0 2px; font-family: var(--font-family); padding: 0; }
 .fib-react-select__placeholder,
-.fib-react-select__single-value {
-  transform: none;
-  position: relative;
-  line-height: 1.2em;
-  max-width: calc(100% - 4px);
-  min-width: 50px;
-}
+.fib-react-select__single-value { transform: none; position: relative; line-height: 1.2em; max-width: calc(100% - 4px); min-width: 50px; font-family: var(--font-family); }
+.fib-react-select__single-value p { margin: 2px 0; }
+.fib-react-select__indicator { padding: 2px; color: var(--text-secondary); }
+.fib-react-select__indicator-separator { margin: 4px 0; background-color: var(--border-color); }
+.fib-react-select__menu { white-space: nowrap; width: auto; font-size: 0.9em; font-family: var(--font-family); border: 1px solid var(--border-color); border-radius: var(--radius-xs); box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; position: absolute; background-color: var(--surface-primary); z-index: 100; margin-top: 2px; }
+.fib-react-select__menu.is-open { display: block; }
+.fib-react-select__menu-list p { margin: 0; }
+.fib-react-select__menu-list .fib-react-select__option { padding-top: var(--spacing-xs); padding-bottom: var(--spacing-xs); min-width: 90px; font-family: var(--font-family); }
+.fib-react-select__menu-list .fib-react-select__option:hover { background-color: var(--surface-secondary); }
+.fib-react-select__menu-list .fib-react-select__option.is-selected { background-color: var(--color-codio-blue); color: var(--color-white); }
 
-.fib-react-select__single-value p {
-  margin: 2px 0;
-}
-
-.fib-react-select__indicator {
-  padding: 2px;
-}
-
-.fib-react-select__indicator-separator {
-  margin: 4px 0;
-  background-color: var(--border-color);
-}
-
-.fib-react-select__menu {
-  white-space: nowrap;
-  width: auto;
-  font-size: 0.9em;
-  font-family: var(--font-family);
-}
-
-.fib-react-select__menu-list p {
-  margin: 0;
-}
-
-.fib-react-select__menu-list .fib-react-select__option {
-  padding-top: var(--spacing-xs);
-  padding-bottom: var(--spacing-xs);
-  min-width: 90px;
-}
-
-/* Free text / gradebook */
+/* ── Gradebook / Free Text ── */
 .codio-assessment-grade-book .codio-assessment-textarea,
 .codio-assessment-free-text .codio-assessment-textarea,
 .codio-assessment-free-text-auto .codio-assessment-textarea {
-  width: 100%;
-  min-height: 100px;
-  font-family: var(--font-family);
+  width: 100%; min-height: 100px; font-family: var(--font-family);
+  border: 1px solid var(--border-color); border-radius: var(--radius-xs);
+  padding: var(--spacing-sm); background-color: var(--surface-primary); color: var(--text-primary);
 }
-
 .codio-assessment-grade-book .codio-helpBlock,
-.codio-assessment-free-text .codio-helpBlock {
-  background-color: var(--surface-primary);
-  padding: 20px;
-}
-
+.codio-assessment-free-text .codio-helpBlock { background-color: var(--surface-primary); padding: var(--spacing-lg); border: 1px solid var(--border-color); border-radius: var(--radius-xs); font-family: var(--font-family); }
 .codio-assessment-free-text .codio-assessment-content,
-.codio-assessment-free-text-auto .codio-assessment-content {
-  margin-bottom: 20px;
-}
+.codio-assessment-free-text-auto .codio-assessment-content { margin-bottom: var(--spacing-lg); font-family: var(--font-family); }
+.codio-assessment-free-text-auto .codio-helpBlock { padding: var(--spacing-lg); background-color: var(--surface-secondary); margin-right: 0; overflow: auto; border: 1px solid var(--border-color); border-radius: var(--radius-xs); font-family: var(--font-family); }
+.codio-assessment-free-text-auto .codio-output { max-height: 250px; font-family: var(--font-family); }
+.codio-assessment-free-text-preview { margin-bottom: 5px; }
 
-.codio-assessment-free-text-auto .codio-helpBlock {
-  padding: 20px;
-  background-color: var(--surface-secondary);
-  margin-right: 0;
-  overflow: auto;
-}
-
-.codio-assessment-free-text-auto .codio-output {
-  max-height: 250px;
-}
-
-.codio-assessment-free-text-preview {
-  margin-bottom: 5px;
-}
-
-/* Rubrics */
-.codio-rubricInfo {
-  line-height: 22px;
-  font-family: var(--font-family);
-}
-
+/* ── Rubrics ── */
+.codio-rubricInfo-item { display: flex; flex-direction: row; align-items: center; font-family: var(--font-family); }
+.codio-rubricInfo      { line-height: 22px; padding-top: var(--spacing-sm); font-family: var(--font-family); }
 .codio-rubricInfo-posNumber,
-.codio-rubricInfo-negNumber {
-  font-weight: 600;
-  padding-right: 10px;
-}
+.codio-rubricInfo-negNumber { font-weight: 600; padding-right: var(--spacing-sm); font-family: var(--font-family); }
+.codio-rubricInfo-posNumber { color: var(--color-codio-green); }
+.codio-rubricInfo-negNumber { color: #E86A6B; }
 
-.codio-rubricInfo-posNumber {
-  color: var(--color-codio-green);
-}
-
-.codio-rubricInfo-negNumber {
-  color: #E86A6B;
-}
-
+/* ── Textarea base ── */
 textarea {
-  font-family: inherit;
+  font-family: var(--font-family);
   font-size: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xs);
+  padding: var(--spacing-sm);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
 }
+textarea:focus { outline: none; border-color: var(--color-codio-blue); }
 
-.codio-assessment-math-stack input {
-  font-size: 0.9em;
-}
+/* ── Math stack ── */
+.codio-assessment-math-stack input { font-size: 0.9em; font-family: var(--font-family); }
+.codio-assessment-math-stack .MathJax { font-size: 1.5em; }
+.stackpartmark { font-weight: 600; font-family: var(--font-family); }
 
-.codio-assessment-math-stack .MathJax {
-  font-size: 1.5em;
-}
+/* ── LLM rubric ── */
+.codio-assessment-llm-evaluation { display: flex; margin-bottom: 10px; }
+.codio-assessment-llm-evaluation-criterion { font-weight: bold; }
+.codio-assessment-llm-evaluation-score { flex: 0 0 30px; }
+.codio-assessment-llm-evaluation-score-input { margin-top: 8px; }
+.codio-assessment-llm-evaluation-info { flex: 1 1 auto; }
+.codio-assessment-llm-evaluation-feedback-textarea { width: 100%; }
 
-.stackpartmark {
-  font-weight: 700;
-}
-
-/* Parsons */
-.codio-assessment-parsons-puzzle .sortable-code {
-  float: none;
-}
-
-.codio-assessment-parsons-puzzle .sortable-code li {
-  white-space: pre-wrap;
-}
-
+/* ── Parsons puzzle ── */
+.codio-assessment-parsons-puzzle .sortable-code { float: none; }
+.codio-assessment-parsons-puzzle .sortable-code li { white-space: pre-wrap; }
 .codio-assessment-parsons-puzzle .sortable-code ul,
-.codio-assessment-parsons-puzzle .testcase .output {
-  font-size: inherit;
-}
+.codio-assessment-parsons-puzzle .testcase .output { font-size: inherit; }
+.codio-assessment-parsons-puzzle .code-container { position: relative; }
+.codio-assessment-parsons-puzzle .block-actions { position: absolute; width: 100%; height: 100%; opacity: 0.3; background-color: #fff; z-index: 1000; cursor: default !important; }
+.codio-assessment-parsons-puzzle .model-canvas { cursor: pointer; }
+.codio-assessment-random .tags-list { margin: 10px 0; }
+.codio-assessment-iframe { border: none; }
 
-.codio-assessment-parsons-puzzle .code-container {
-  position: relative;
-}
-
-.codio-assessment-parsons-puzzle .block-actions {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0.3;
-  background-color: #fff;
-  z-index: 1000;
-  cursor: default !important;
-}
-
-.codio-assessment-parsons-puzzle .model-canvas {
-  cursor: pointer;
-}
-
-.codio-assessment-search .tags-list,
-.codio-assessment-random .tags-list {
-  margin: 10px 0;
-}
-
+/* ── Expand button ── */
 .codio-button-expand {
   background-image: url('https://static-assets.codio.com/client/assets/images/guides/expand.6d2f59c6f9914010.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  background-size: contain;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  height: 20px;
-  width: 20px;
-  border: none;
+  background-position: center; background-repeat: no-repeat; background-color: transparent;
+  background-size: contain; position: absolute; top: 20px; right: 20px; cursor: pointer;
+  height: 20px; width: 20px; border: none;
 }
 
-/* --------------------------------------------------------------------------
-   4. Codio help blocks / compare feedback / gradebook picker
-   -------------------------------------------------------------------------- */
+/* ── Feedback comments ── */
+.codio-feedback-comments { max-height: 250px; overflow: auto; font-family: monospace; }
+.codio-feedback-comments div { white-space: normal; }
+.codio-feedback-comments-border { border-radius: 2px; border: 1px solid #d3d5dc; color: #33393d; margin: 10px 0; padding: 3px; }
+.codio-feedback-comments p, .codio-feedback-comments h1, .codio-feedback-comments h2,
+.codio-feedback-comments h3, .codio-feedback-comments h4, .codio-feedback-comments h5,
+.codio-feedback-comments div, .codio-feedback-comments ul { margin: 0; padding: 0 0 3px; }
 
-.codio-helpBlock,
-.stackinputfeedback {
-  border-radius: var(--radius-sm);
-  border: 1px solid #d3d5dc;
-  color: #33393d;
-  margin: 10px 36px 10px 0;
-  padding: 12px 14px;
-  line-height: 1.5;
-  position: relative;
-  max-width: 570px;
-  background-color: #fbfbfb;
+/* ── HelpBlock / Compare ── */
+.codio-helpBlock, .stackinputfeedback {
+  border-radius: 2px; border: 1px solid #d3d5dc; color: #33393d;
+  margin: 10px 36px 10px 0; padding: 10px; line-height: 16px;
+  position: relative; max-width: 570px;
 }
+.codio-helpBlock--fullWidth { max-width: none; margin-left: 0; margin-right: 0; }
+.stackinputfeedback:empty { display: none; }
+.stackinputfeedback, .codio-assessment-compare .codio-button-result-out .codio-feedback-text { background-color: #fbfbfb; }
 
-.codio-helpBlock--fullWidth {
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-}
+.codio-helpBlock--topLeftArrow::before  { position: absolute; display: inline-block; content: ''; border-bottom: 7px solid #eee; border-right: 7px solid transparent; border-left: 7px solid transparent; left: 10px; top: -8px; }
+.codio-helpBlock--topLeftArrow::after   { position: absolute; display: inline-block; content: ''; border-bottom: 6px solid #FFFFFF; border-right: 6px solid transparent; border-left: 6px solid transparent; left: 11px; top: -6px; }
+.codio-helpBlock--bottomLeftArrow::before { position: absolute; display: inline-block; content: ''; border-top: 7px solid #eaecf2; border-right: 7px solid transparent; border-left: 7px solid transparent; left: 10px; bottom: -8px; }
+.codio-helpBlock--bottomLeftArrow::after  { position: absolute; display: inline-block; content: ''; border-top: 6px solid #FFFFFF; border-right: 6px solid transparent; border-left: 6px solid transparent; left: 11px; bottom: -6px; }
+.codio-helpBlock--leftArrow::before { position: absolute; display: inline-block; content: ''; border-bottom: 7px solid transparent; border-right: 7px solid #eee; border-top: 7px solid transparent; left: -7px; top: 10px; }
+.codio-helpBlock--leftArrow::after  { position: absolute; display: inline-block; content: ''; border-bottom: 6px solid transparent; border-right: 6px solid #fff; border-top: 6px solid transparent; left: -6px; top: 11px; }
 
-.stackinputfeedback:empty {
-  display: none;
-}
+.codio-challenge.codio-challenge-collapsed::before { top: 12px; }
 
-.codio-assessment-compare .codio-button-result-out .codio-feedback-text {
-  background-color: #fbfbfb;
-}
-
-.codio-helpBlock--topLeftArrow:before {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-bottom: 7px solid #eee;
-  border-right: 7px solid transparent;
-  border-left: 7px solid transparent;
-  left: 10px;
-  top: -8px;
-}
-
-.codio-helpBlock--topLeftArrow:after {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-bottom: 6px solid #FFFFFF;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
-  left: 11px;
-  top: -6px;
-}
-
-.codio-helpBlock--bottomLeftArrow:before {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-top: 7px solid #eaecf2;
-  border-right: 7px solid transparent;
-  border-left: 7px solid transparent;
-  left: 10px;
-  bottom: -8px;
-}
-
-.codio-helpBlock--bottomLeftArrow:after {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-top: 6px solid #FFFFFF;
-  border-right: 6px solid transparent;
-  border-left: 6px solid transparent;
-  left: 11px;
-  bottom: -6px;
-}
-
-.codio-helpBlock--leftArrow:before {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-bottom: 7px solid transparent;
-  border-right: 7px solid #eee;
-  border-top: 7px solid transparent;
-  left: -7px;
-  top: 10px;
-}
-
-.codio-helpBlock--leftArrow:after {
-  position: absolute;
-  display: inline-block;
-  content: '';
-  border-bottom: 6px solid transparent;
-  border-right: 6px solid #fff;
-  border-top: 6px solid transparent;
-  left: -6px;
-  top: 11px;
-}
-
-.codio-button-type-gradeBook-pointsInput {
-  margin-right: 5px;
-}
-
-.codio-button-type-gradeBook-pointsPicker,
-.codio-button-type-gradeBook-commentInfo {
-  margin-top: 5px;
-}
-
-.codio-button-type-gradeBook-nameCollapse {
-  display: flex;
-  flex-direction: row;
-  min-width: 0;
-  justify-content: space-between;
-  align-items: baseline;
-  height: 1.6em;
-}
-
-/* Compare output */
+/* Compare assessment */
 .codio-assessment-compare .codio-button-result.fail .codio-button-result-out,
-.codio-challenge.codio-assessment-compare .codio-button-result.pass .codio-button-result-out {
-  font-style: normal;
-  font-size: 16px;
-}
-
-.codio-assessment-compare .codio-button-result-out > div {
-  font-weight: 600;
-}
-
+.codio-challenge.codio-assessment-compare .codio-button-result.pass .codio-button-result-out { font-style: normal; font-size: 16px; }
+.codio-assessment-compare .codio-button-result-out > div { font-weight: 600; }
 .codio-assessment-compare .codio-button-result-out > div > pre,
-.codio-assessment-compare .codio-button-result-out div.codio-output-diff > pre {
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0;
-}
-
+.codio-assessment-compare .codio-button-result-out div.codio-output-diff > pre { font-weight: 500; font-size: 14px; margin: 0; }
 .codio-assessment-compare .codio-button-result-out .codio-output-text,
 .codio-assessment-compare .codio-button-result-out .codio-expected-output-text,
-.codio-assessment-compare .codio-button-result-out .codio-feedback-text {
-  max-height: 250px;
-  overflow: auto;
-}
-
-.codio-assessment-compare .codio-button-result-out .codio-feedback-text {
-  word-break: break-word;
-  white-space: pre-wrap;
-}
-
+.codio-assessment-compare .codio-button-result-out .codio-feedback-text { max-height: 250px; overflow: auto; }
+.codio-assessment-compare .codio-button-result-out .codio-feedback-text { word-break: break-word; white-space: pre-wrap; }
 .codio-assessment-compare .codio-button-result-out .codio-output-text,
-.codio-assessment-compare .codio-button-result-out .codio-output-diff-del {
-  background-color: #ffe6e6;
-}
-
+.codio-assessment-compare .codio-button-result-out .codio-output-diff-del { background-color: #ffe6e6; }
 .codio-assessment-compare .codio-button-result-out .codio-expected-output-text,
-.codio-assessment-compare .codio-button-result-out .codio-output-diff-ins {
-  background-color: #e9fff2;
+.codio-assessment-compare .codio-button-result-out .codio-output-diff-ins { background-color: #e9fff2; }
+.codio-output-diff { max-height: 500px; overflow: auto; }
+
+/* Gradebook picker */
+.codio-button-type-gradeBook-pointsInput { margin-right: 5px; }
+.codio-button-type-gradeBook-pointsOf    { color: var(--text-secondary); margin-right: 5px; }
+.codio-button-type-gradeBook-pointsPicker,
+.codio-button-type-gradeBook-commentInfo { margin-top: 5px; }
+.codio-button-type-gradeBook-nameCollapse {
+  display: flex; flex-direction: row; align-items: baseline;
+  justify-content: space-between; min-width: 0; height: 1.6em;
 }
+.codio-button.codio-button-type-assessment-grade { margin-left: 10px; }
+.codio-assessment-grade-book .codio-button.codio-button-type-assessment-grade { margin-left: 0; margin-top: 10px; }
 
-.codio-output-diff {
-  max-height: 500px;
-  overflow: auto;
-}
 
-/* --------------------------------------------------------------------------
-   5. Codio callout blocks — target real Codio block classes directly
-   -------------------------------------------------------------------------- */
+/* =============================================================
+   11. Codio Callout Blocks
+   ============================================================= */
 
-.codio-warning,
-.codio-definition,
-.codio-important,
-.codio-topic,
-.codio-challenge,
-.codio-info,
-.codio-curiculum,
-.codio-guidance,
-.codio-meetups,
-.codio-headline,
-.codio-hackathon,
-.codio-create,
-.codio-calendar,
-.codio-growthhack,
-.codio-debugging,
-.codio-xdiscipline {
-  --callout-accent: var(--color-codio-blue);
-  --callout-tint: rgba(43, 174, 255, 0.08);
-
+/* Base style — all callout types share this */
+.codio-warning,  .codio-definition, .codio-important, .codio-topic,
+.codio-challenge,.codio-info,       .codio-curiculum,  .codio-guidance,
+.codio-meetups,  .codio-headline,   .codio-hackathon,  .codio-create,
+.codio-calendar, .codio-growthhack, .codio-debugging,  .codio-xdiscipline {
+  --accent-rgb: var(--codio-blue-rgb);
   position: relative;
-  padding: 18px 22px 18px 22px;
-  margin: 1em 0 1.5em 0;
-  font-size: 1rem;
-  color: var(--text-primary);
-  background-color: var(--callout-tint);
-  border: 1px solid rgba(17, 24, 39, 0.10);
-  border-left: 6px solid var(--callout-accent);
-  border-radius: 18px;
+  margin: 20px 0;
+  padding: var(--callout-pad-y) var(--callout-pad-x) var(--callout-pad-y)
+           calc(var(--callout-pad-x) + var(--callout-icon) + var(--callout-gap));
+  border-radius: var(--callout-radius);
+  background: rgba(var(--accent-rgb), var(--callout-bg-alpha));
+  border: 1px solid rgba(var(--accent-rgb), var(--callout-border-alpha));
+  border-left: var(--callout-rail) solid rgb(var(--accent-rgb));
   box-shadow: var(--shadow-1);
-  overflow-x: auto;
+  color: var(--text-0);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-family: var(--font-family);
+  transform: none !important;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
-.codio-info,
-.codio-create,
-.codio-debugging {
-  --callout-accent: var(--color-codio-blue);
-  --callout-tint: rgba(43, 174, 255, 0.08);
+.codio-warning:hover,  .codio-definition:hover, .codio-important:hover, .codio-topic:hover,
+.codio-challenge:hover,.codio-info:hover,       .codio-curiculum:hover,  .codio-guidance:hover,
+.codio-meetups:hover,  .codio-headline:hover,   .codio-hackathon:hover,  .codio-create:hover,
+.codio-calendar:hover, .codio-growthhack:hover, .codio-debugging:hover,  .codio-xdiscipline:hover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
 }
 
-.codio-definition,
-.codio-topic,
-.codio-guidance,
-.codio-headline,
-.codio-hackathon,
-.codio-xdiscipline {
-  --callout-accent: var(--color-codio-purple);
-  --callout-tint: rgba(151, 71, 255, 0.08);
+/* Headings inside callouts */
+.codio-warning h1,    .codio-warning h2,    .codio-warning h3,
+.codio-definition h1, .codio-definition h2, .codio-definition h3,
+.codio-important h1,  .codio-important h2,  .codio-important h3,
+.codio-topic h1,      .codio-topic h2,      .codio-topic h3,
+.codio-challenge h1,  .codio-challenge h2,  .codio-challenge h3,
+.codio-info h1,       .codio-info h2,       .codio-info h3,
+.codio-curiculum h1,  .codio-curiculum h2,  .codio-curiculum h3,
+.codio-guidance h1,   .codio-guidance h2,   .codio-guidance h3 {
+  margin: 0 0 0.35em 0; font-size: 1.15em; font-weight: 700; border: none; padding: 0; color: var(--text-0);
 }
 
-.codio-important,
-.codio-growthhack,
-.codio-meetups {
-  --callout-accent: var(--color-codio-green);
-  --callout-tint: rgba(37, 234, 224, 0.08);
+.codio-warning p, .codio-definition p, .codio-important p,
+.codio-topic p,   .codio-challenge p,  .codio-info p, .codio-guidance p { color: var(--text-1); }
+
+/* Icon circle — ::before */
+.codio-warning::before,  .codio-definition::before, .codio-important::before, .codio-topic::before,
+.codio-challenge::before,.codio-info::before,       .codio-curiculum::before,  .codio-guidance::before,
+.codio-meetups::before,  .codio-headline::before,   .codio-hackathon::before,  .codio-create::before,
+.codio-calendar::before, .codio-growthhack::before, .codio-debugging::before,  .codio-xdiscipline::before {
+  width: var(--callout-icon); height: var(--callout-icon); border-radius: 999px;
+  left: var(--callout-pad-x); top: var(--callout-pad-y); transform: none !important;
+  position: absolute; content: '';
+  background-color: var(--surface-0);
+  border: 1px solid rgba(var(--accent-rgb), var(--callout-border-alpha));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+  background-size: 24px 24px; background-position: center; background-repeat: no-repeat;
 }
 
-.codio-warning,
-.codio-calendar {
-  --callout-accent: #f59e0b;
-  --callout-tint: rgba(245, 158, 11, 0.10);
-}
+/* Accent colour mapping */
+.codio-info, .codio-definition, .codio-debugging, .codio-create    { --accent-rgb: var(--codio-blue-rgb); }
+.codio-guidance, .codio-topic, .codio-challenge, .codio-headline    { --accent-rgb: var(--codio-purple-rgb); }
+.codio-important, .codio-growthhack                                 { --accent-rgb: var(--codio-green-rgb); }
+.codio-warning { --accent-rgb: var(--codio-purple-rgb); --callout-bg-alpha: 0.09; }
+html[data-theme="dark"] .codio-warning,
+body.theme-dark .codio-warning,
+body.dark .codio-warning { --callout-bg-alpha: 0.16; }
 
-.codio-challenge {
-  --callout-accent: var(--color-codio-purple);
-  --callout-tint: rgba(151, 71, 255, 0.07);
-}
+/* Icon images */
+.codio-warning::before     { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/warning.82cd40650a660b1c.svg"); }
+.codio-definition::before  { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/definition.19aed70a1703e970.svg"); }
+.codio-important::before   { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/important.fb10dc56d0f49424.svg"); }
+.codio-topic::before       { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/topic.dd02789224150404.svg"); }
+.codio-challenge::before   { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/challenge.d389cf7ece9a9dc2.svg"); }
+.codio-info::before        { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/info.2a0e4bb9f8682b36.svg"); }
+.codio-guidance::before    { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/guidance.f1fce2c9f18448da.svg"); }
+.codio-meetups::before     { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/meetups.93b3131b22571ee7.svg"); }
+.codio-headline::before    { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/headline.0e8c4c9e5a7c8c5e.svg"); }
+.codio-hackathon::before   { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/hackathon.9a1b2c3d4e5f6a7b.svg"); }
+.codio-create::before      { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/create.8c7d6e5f4a3b2c1d.svg"); }
+.codio-calendar::before    { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/calendar.1a2b3c4d5e6f7a8b.svg"); }
+.codio-growthhack::before  { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/growthhack.2b3c4d5e6f7a8b9c.svg"); }
+.codio-debugging::before   { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/debugging.3c4d5e6f7a8b9c0d.svg"); }
+.codio-xdiscipline::before { background-image: url("https://static-assets.codio.com/client/assets/images/guides/blocks/xdiscipline.4d5e6f7a8b9c0d1e.svg"); }
 
-.codio-warning h1,
-.codio-definition h1,
-.codio-important h1,
-.codio-topic h1,
-.codio-challenge h1,
-.codio-info h1,
-.codio-curiculum h1,
-.codio-guidance h1,
-.codio-meetups h1,
-.codio-headline h1,
-.codio-hackathon h1,
-.codio-create h1,
-.codio-calendar h1,
-.codio-growthhack h1,
-.codio-debugging h1,
-.codio-xdiscipline h1,
-.codio-warning h2,
-.codio-definition h2,
-.codio-important h2,
-.codio-topic h2,
-.codio-challenge h2,
-.codio-info h2,
-.codio-curiculum h2,
-.codio-guidance h2,
-.codio-meetups h2,
-.codio-headline h2,
-.codio-hackathon h2,
-.codio-create h2,
-.codio-calendar h2,
-.codio-growthhack h2,
-.codio-debugging h2,
-.codio-xdiscipline h2,
-.codio-warning h3,
-.codio-definition h3,
-.codio-important h3,
-.codio-topic h3,
-.codio-challenge h3,
-.codio-info h3,
-.codio-curiculum h3,
-.codio-guidance h3,
-.codio-meetups h3,
-.codio-headline h3,
-.codio-hackathon h3,
-.codio-create h3,
-.codio-calendar h3,
-.codio-growthhack h3,
-.codio-debugging h3,
-.codio-xdiscipline h3 {
-  font-size: 120%;
-  font-style: normal;
-  margin-top: 0;
-  margin-bottom: 0.35em;
-  border: none;
-  padding-bottom: 0;
-  color: var(--text-primary);
-}
 
-.codio-warning > p:first-of-type,
-.codio-definition > p:first-of-type,
-.codio-important > p:first-of-type,
-.codio-topic > p:first-of-type,
-.codio-challenge > p:first-of-type,
-.codio-info > p:first-of-type,
-.codio-curiculum > p:first-of-type,
-.codio-guidance > p:first-of-type,
-.codio-meetups > p:first-of-type,
-.codio-headline > p:first-of-type,
-.codio-hackathon > p:first-of-type,
-.codio-create > p:first-of-type,
-.codio-calendar > p:first-of-type,
-.codio-growthhack > p:first-of-type,
-.codio-debugging > p:first-of-type,
-.codio-xdiscipline > p:first-of-type {
-  margin-top: 0;
-}
-
-/* --------------------------------------------------------------------------
-   6. Codio buttons + footer buttons
-   -------------------------------------------------------------------------- */
-
+/* =============================================================
+   12. Codio Buttons
+   ============================================================= */
 .codio-button {
   text-shadow: none;
   font-style: normal;
   display: inline-block;
-  padding: 6px 16px;
-  font-weight: 600;
-  font-size: 0.8rem;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-weight: 500;
+  font-size: 0.75em;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
   background: var(--color-codio-blue);
-  border-radius: 999px;
-  color: #fff;
-  text-transform: none;
+  border-radius: var(--radius-xs);
+  color: var(--color-white);
+  text-transform: uppercase;
   text-decoration: none;
   margin-left: auto;
   margin-right: auto;
   font-family: var(--font-family);
   border: 1px solid var(--color-codio-blue);
   transition: all 0.2s ease;
+  box-shadow: none;
 }
+.codio-button:hover    { background: #1A9FE6; border-color: #1A9FE6; color: var(--color-white); transform: translateY(-1px); box-shadow: 0 2px 4px rgba(43,174,255,0.3); }
+.codio-button:focus    { outline: 2px solid var(--color-codio-blue); outline-offset: 2px; box-shadow: none; }
+.codio-button:active   { transform: translateY(0); box-shadow: none; }
+.codio-button:disabled { cursor: not-allowed; opacity: 0.5; transform: none; }
 
-.codio-button:hover {
-  background: #1A9FE6;
-  border-color: #1A9FE6;
-  color: #fff;
+.codio-button.codio-button-type-explain    { margin-left: var(--spacing-sm); text-transform: none; }
+.codio-button-diff                         { float: right; text-transform: none; }
+.codio-button.codio-assessment-disabled    { background-color: #8bacea; border-color: #8bacea; }
+
+/* Result panel */
+.codio-button-result {
+  background: #fff; border: 1px solid #ddd; border-radius: 2px;
+  line-height: 25px; position: relative; padding: 1em 65px;
+  font-weight: normal; margin: 1em 0; min-height: 30px;
 }
+.codio-button-result::after  { position: absolute; display: inline-block; left: 21px; bottom: 100%; content: ''; border-left: 8px solid transparent; border-bottom: 9px solid #fff; border-right: 9px solid transparent; }
+.codio-button-result::before { position: absolute; display: inline-block; left: 19px; bottom: 100%; content: ''; border-left: 10px solid transparent; border-bottom: 11px solid #ddd; border-right: 10px solid transparent; }
+.codio-button-result-header  { margin-top: 0; }
 
-.codio-button:focus {
-  outline: 2px solid var(--color-codio-blue) !important;
-  outline-offset: 2px;
+.codio-button-result-explanation { border: 2px solid; }
+.codio-button-result-explanation::before,
+.codio-button-result-explanation::after { display: none; }
+.codio-button-result-explanation-footer { display: flex; justify-content: flex-end; padding: 10px 0; position: relative; }
+.codio-button-result-explanation-footer-gen-by  { position: absolute; left: 0; font-size: 14px; color: #ccc; }
+.codio-button-result-explanation-footer-btn     { font-size: 1em; background: transparent; border: none; cursor: pointer; }
+.codio-button-result-explanation-footer-btn:not(:last-child) { margin-right: 10px; }
+.codio-button-result-explanation-footer-thumb-up.active   { color: #18d8a7; }
+.codio-button-result-explanation-footer-thumb-down.active { color: #E86A6B; }
+
+/* Result icons */
+.codio-button-result-icon          { position: absolute; top: 20px; left: 26px; width: 26px; height: 26px; }
+.codio-button-icon-progress        { display: inline-block; background-image: url("https://static-assets.codio.com/client/assets/images/guides/spinner.1a3ba986dc1ef798.gif"); background-size: 14px 14px; height: 14px; width: 14px; position: relative; top: 1px; margin-right: 10px; }
+.codio-button-result-icon-pass     { background-image: url("https://static-assets.codio.com/client/assets/images/guides/checkmark_green.58f924655ce1c903.svg"); }
+.codio-button-result-icon-partial  { background-image: url("https://static-assets.codio.com/client/assets/images/guides/percent.fc4338499c540b52.svg"); }
+.codio-button-result-icon-fail     { background-image: url("https://static-assets.codio.com/client/assets/images/guides/remove_red.e75592fe35ae6c52.svg"); }
+.codio-button-result-icon-progress { background-image: url("https://static-assets.codio.com/client/assets/images/guides/spinner-black.3136a08588f1847e.gif"); background-size: 16px 16px; height: 16px; width: 16px; }
+
+.codio-button-result .codio-button-result-out { overflow: auto; font-family: monospace; margin: 0; white-space: pre-wrap; }
+.codio-button-result .codio-button-result-error-text   { color: #b94a48; }
+.codio-button-result .codio-button-result-success-text { color: #468847; }
+
+.codio-button.codio-button-result-success { color: #ffffff; background: #18d8a7; border: none; }
+.codio-button.codio-button-result-danger  { background-color: #E86A6B; border: none; margin-left: 5px; }
+.codio-button.codio-button-result-primary { color: #ffffff; background: #15a4fa; border: none; margin-left: 5px; }
+
+
+/* =============================================================
+   13. Codio UI Helpers
+   ============================================================= */
+
+/* ── Toggle switch ── */
+.toggle {
+  position: relative; display: inline-block; vertical-align: top;
+  width: 32px; height: 16px; padding: 0;
+  background-color: var(--border-color); border-radius: 8px;
+  cursor: pointer; margin: 4px var(--spacing-xs) 0 0; transition: background-color 0.2s ease;
 }
+.toggle input[type=checkbox] { float: none; position: absolute; top: 0; left: 0; opacity: 0; }
+.toggle .toggle-label { position: relative; display: block; height: inherit; font-size: 14px; text-transform: uppercase; background: var(--border-color); border-radius: inherit; transition: background-color 0.2s ease; }
+.toggle .toggle-label::before, .toggle .toggle-label::after { position: absolute; top: 50%; margin-top: -5px; line-height: 1; color: var(--color-white); }
+.toggle input[type=checkbox]:checked ~ .toggle-label { background: var(--color-codio-blue); }
+.toggle input[type=checkbox]:checked ~ .toggle-label::before { opacity: 0; }
+.toggle input[type=checkbox]:checked ~ .toggle-label::after  { opacity: 1; }
+.toggle input[type=checkbox]:disabled ~ .toggle-label { background: var(--surface-secondary); }
+.toggle input[type=checkbox]:checked ~ .toggle-handle { left: 18px; }
+.toggle .toggle-handle { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; background: var(--color-white); border-radius: 50%; transition: left 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
-.codio-button:disabled {
-  cursor: not-allowed;
+/* ── Arrow helpers ── */
+.codio-downArrow::before { position: relative; display: inline-block; content: ''; border-left: 10px solid transparent; border-top: 10px solid #555; border-right: 10px solid transparent; left: 5px; top: 3px; }
+.codio-downArrow::after  { position: relative; display: inline-block; content: ''; border-left: 9px solid transparent; border-top: 9px solid #fff; border-right: 9px solid transparent; left: -14px; top: 0; }
+.codio-upArrow::before   { position: relative; display: inline-block; content: ''; border-left: 10px solid transparent; border-bottom: 10px solid #555; border-right: 10px solid transparent; left: 5px; top: 3px; }
+.codio-upArrow::after    { position: relative; display: inline-block; content: ''; border-left: 9px solid transparent; border-bottom: 9px solid #fff; border-right: 9px solid transparent; left: -14px; top: 5px; }
+.codio-collapseArrow     { float: right; margin-top: 10px; }
+
+/* ── Guide bot button ── */
+.codio-guides-help-bot-button {
+  position: fixed; right: var(--spacing-lg); bottom: var(--spacing-lg);
+  font-size: 36px; width: 56px; height: 56px; border-radius: 50%; border: none;
+  background-color: var(--color-codio-blue); color: var(--color-white);
+  cursor: pointer; transition: all 0.2s ease;
 }
+.codio-guides-help-bot-button:hover { background-color: #1A9FE6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(43,174,255,0.3); }
+.codio-guides-help-bot-button svg { position: relative; top: -2px; }
 
-.codio-button-diff {
-  float: right;
-  text-transform: none;
+/* ── Theme toggle ── */
+.theme-toggle-container {
+  position: fixed; top: 20px; right: 20px; z-index: 1000;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface-primary); padding: 12px 16px; border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+  font-family: var(--font-family); font-size: 14px; font-weight: 500;
+  color: var(--text-primary); transition: all 0.3s ease;
 }
+.theme-toggle-switch {
+  position: relative; width: 52px; height: 28px;
+  background: var(--color-inter-grey); border-radius: 14px; cursor: pointer; transition: background 0.3s ease;
+}
+.theme-toggle-switch::before {
+  content: ''; position: absolute; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--color-white); top: 3px; left: 3px; transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+[data-theme="dark"] .theme-toggle-switch { background: var(--color-codio-blue); }
+[data-theme="dark"] .theme-toggle-switch::before { transform: translateX(24px); }
 
-footer {
-  text-align: center;
-  margin-top: 80px;
+
+/* =============================================================
+   14. LO1 Template — Learning Objectives
+   ============================================================= */
+
+/* Container */
+.rendered-markdown .lo1,
+.lo1 {
+  max-width: min(var(--lo1-max), 92vw);
+  margin: 0 auto;
+  color: var(--text-primary);
   font-family: var(--font-family);
+  padding: var(--space-8) var(--space-6);
 }
 
-footer button {
-  text-decoration: none;
-  background-image: none;
-  line-height: 2em;
+.rendered-markdown .lo1 *,
+.lo1 * { box-sizing: border-box; }
+
+/* Type overrides (scoped) */
+.rendered-markdown .lo1 p,       .lo1 p       { margin: 0 0 var(--space-3); color: var(--text-secondary); font-size: 16px; line-height: 1.6; }
+.rendered-markdown .lo1 p + p,   .lo1 p + p   { margin-top: var(--space-3); }
+.rendered-markdown .lo1 h1,      .lo1 h1      { margin: 0 0 var(--space-1); font-size: clamp(32px, 3.2vw, 40px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 900; border: none; }
+.rendered-markdown .lo1 h2,      .lo1 h2      { margin: var(--space-6) 0 var(--space-2); font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -0.01em; font-weight: 800; border: none; }
+.rendered-markdown .lo1 h3,      .lo1 h3      { margin: 0; color: var(--text-primary); line-height: 1.2; border: none; }
+.rendered-markdown .lo1 a,       .lo1 a       { color: var(--accent-600); }
+.rendered-markdown .lo1 a:hover, .lo1 a:hover { text-decoration: underline; }
+
+.rendered-markdown .lo1 code, .lo1 code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em; padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs); background: var(--surface-muted);
+  border: 1px solid var(--border-muted); color: var(--text-primary);
+}
+.rendered-markdown .lo1 pre, .lo1 pre { margin: 0; padding: var(--space-4); background: #0b1020; border-radius: var(--radius-xl); overflow: auto; box-shadow: var(--shadow-xs); border: 1px solid rgba(255,255,255,0.08); }
+.rendered-markdown .lo1 pre code, .lo1 pre code { background: transparent; border: 0; padding: 0; color: #e6eaff; font-size: 0.92em; }
+
+.rendered-markdown .lo1 ul,
+.rendered-markdown .lo1 ol,
+.lo1 ul, .lo1 ol { margin: 0; padding-left: 1.25em; color: var(--text-secondary); }
+.rendered-markdown .lo1 li + li, .lo1 li + li { margin-top: var(--space-2); }
+
+/* Kicker label */
+.rendered-markdown .lo1-kicker,
+.lo1-kicker {
+  display: inline-block;
+  margin: 0 0 var(--space-1);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-700);
+  font-weight: 800;
+}
+
+/* Utilities */
+.rendered-markdown .lo1-gap-26 > * + *, .lo1-gap-26 > * + * { margin-top: 26px; }
+.rendered-markdown .lo1-muted,           .lo1-muted           { color: var(--text-secondary); }
+
+/* Header card */
+.rendered-markdown .lo1-header, .lo1-header {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, var(--surface-primary), var(--surface-page));
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-7);
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.rendered-markdown .lo1-title,    .lo1-title    { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; }
+.rendered-markdown .lo1-subtitle, .lo1-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 70ch; }
+
+/* Frames */
+.rendered-markdown .lo1-frame, .lo1-frame {
+  margin-top: var(--space-6);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-xl);
+  background: var(--surface-primary);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+  padding: 0;
+}
+[data-theme="dark"] .lo1-frame { box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+.rendered-markdown .lo1-frame-head, .lo1-frame-head {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-6); background: var(--surface-muted);
+  border-bottom: 1px solid var(--border-muted);
+}
+.rendered-markdown .lo1-frame-head h2, .lo1-frame-head h2 { margin: 0; font-size: 20px; line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; color: var(--text-primary); }
+.rendered-markdown .lo1-frame-body, .lo1-frame-body { padding: var(--space-6); }
+.rendered-markdown .lo1-frame > :not(.lo1-frame-head):not(.lo1-frame-body),
+.lo1-frame > :not(.lo1-frame-head):not(.lo1-frame-body) { padding: var(--space-6); }
+.rendered-markdown .lo1-frame > .lo1-frame-head:last-child,
+.lo1-frame > .lo1-frame-head:last-child { border-bottom: 0; }
+.rendered-markdown .lo1-frame-desc, .lo1-frame-desc { margin: 0; font-size: 15px; color: var(--text-secondary); }
+
+/* Note callout */
+.rendered-markdown .lo1-note, .lo1-note {
+  margin-top: var(--space-3); padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: rgba(59,130,246,0.06);
+  border: 1px solid rgba(59,130,246,0.14);
+  color: var(--text-primary); font-size: 15px;
+}
+
+/* Start-here row */
+.rendered-markdown .lo1-start, .lo1-start {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: 14px 16px; border-radius: var(--radius-md);
+  border: 1px solid rgba(17,24,39,0.08);
+  background: rgba(0,0,0,0.03); color: var(--text-primary); font-size: 14px; line-height: 1.5;
+}
+.rendered-markdown .lo1-dot, .lo1-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--accent-500); flex: 0 0 auto; margin-top: 0; }
+
+/* Pills */
+.rendered-markdown .lo1-pills, .lo1-pills { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.rendered-markdown .lo1-pill, .lo1-pill {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px;
+  border-radius: 999px; background: var(--surface-primary);
+  border: 1px solid rgba(17,24,39,0.10); color: rgba(17,24,39,0.78);
+  font-size: 13px; font-weight: 700; line-height: 1;
+}
+.rendered-markdown .lo1-pill--primary, .lo1-pill--primary { border-color: var(--accent-200); background: var(--accent-50); color: var(--accent-700); }
+.rendered-markdown .lo1-pill--secondary, .lo1-pill--secondary { border-color: var(--border-muted); background: var(--surface-muted); color: var(--text-secondary); }
+
+/* Pill dot colours by position */
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(1) .lo1-dot,
+.lo1-pills .lo1-pill:nth-child(1) .lo1-dot { background: var(--accent-500); }
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(2) .lo1-dot,
+.lo1-pills .lo1-pill:nth-child(2) .lo1-dot { background: var(--text-secondary); }
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(3) .lo1-dot,
+.lo1-pills .lo1-pill:nth-child(3) .lo1-dot { background: var(--teal-500); }
+
+/* Objectives list */
+.rendered-markdown .lo1-list, .lo1-list { margin-top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* details container */
+.rendered-markdown details.lo1-obj, details.lo1-obj {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-xl);
+  background: var(--surface-primary);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+details.lo1-obj[open] {
+  border-color: rgba(43,174,255,0.35);
+  box-shadow: 0 0 0 4px rgba(43,174,255,0.14), 0 2px 8px rgba(0,0,0,0.08);
+}
+[data-theme="dark"] details.lo1-obj[open] {
+  box-shadow: 0 0 0 4px rgba(43,174,255,0.14), 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* summary row */
+.rendered-markdown summary.lo1-obj-summary, summary.lo1-obj-summary {
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4); padding: 18px;
+  cursor: pointer; user-select: none;
+}
+.rendered-markdown summary.lo1-obj-summary::-webkit-details-marker,
+summary.lo1-obj-summary::-webkit-details-marker { display: none; }
+.rendered-markdown summary.lo1-obj-summary::marker,
+summary.lo1-obj-summary::marker { content: ""; }
+
+.rendered-markdown summary.lo1-obj-summary:focus-visible,
+summary.lo1-obj-summary:focus-visible { outline: 3px solid rgba(59,130,246,0.25); outline-offset: 2px; border-radius: var(--radius-lg); }
+
+/* Left content */
+.rendered-markdown .lo1-obj-left,  .lo1-obj-left  { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.rendered-markdown .lo1-obj-line1, .lo1-obj-line1 { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0; }
+.rendered-markdown .lo1-obj-title, .lo1-obj-title { margin: 0; font-size: 16px; line-height: 1.25; font-weight: 800; color: var(--text-primary); min-width: 0; }
+.rendered-markdown .lo1-why,       .lo1-why       { margin: 0; font-size: 14px; color: rgba(17,24,39,0.62); line-height: 1.5; }
+
+/* Chip */
+.rendered-markdown .lo1-chip, .lo1-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; line-height: 1;
+  border: 1px solid rgba(59,130,246,0.25); background: rgba(59,130,246,0.10); color: rgba(29,78,216,0.92);
+}
+.lo1-chip.apply   { border-color: var(--accent-200); background: var(--accent-50); color: var(--accent-700); }
+.lo1-chip.analyze { border-color: var(--border-muted); background: var(--surface-muted); color: var(--text-secondary); }
+.lo1-chip.purple, .lo1-chip.stretch { border-color: rgba(124,58,237,0.25); background: rgba(124,58,237,0.10); color: #5b21b6; }
+
+/* Chevron */
+.rendered-markdown .lo1-chevron, .lo1-chevron {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: rgba(0,0,0,0.03); border: 1px solid rgba(17,24,39,0.08);
+  color: var(--text-secondary); transition: transform 160ms ease, background 160ms ease;
+}
+.rendered-markdown .lo1-chevron svg, .lo1-chevron svg {
+  width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.5;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+.rendered-markdown details.lo1-obj[open] .lo1-chevron,
+details.lo1-obj[open] .lo1-chevron { transform: rotate(180deg); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.16); color: rgba(29,78,216,0.92); }
+
+/* Body */
+.rendered-markdown .lo1-obj-body, .lo1-obj-body { padding: 0 18px 18px; }
+
+/* Subframe */
+.rendered-markdown .lo1-subframe, .lo1-subframe {
+  padding: 16px; border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.02); border: 1px solid rgba(17,24,39,0.08);
+}
+[data-theme="dark"] .lo1-subframe { background: rgba(37,234,224,0.10); border-color: rgba(37,234,224,0.25); }
+.rendered-markdown .lo1-subframe h4, .lo1-subframe h4 { margin: 0 0 10px; font-size: 14px; font-weight: 900; letter-spacing: 0.02em; color: rgba(17,24,39,0.80); text-transform: uppercase; }
+.rendered-markdown .lo1-subframe ul, .lo1-subframe ul { margin: 0; padding-left: 18px; color: rgba(17,24,39,0.76); }
+.rendered-markdown .lo1-subframe li, .lo1-subframe li { margin: 8px 0; line-height: 1.55; }
+
+/* Success list */
+.rendered-markdown .lo1-success .lo1-check, .lo1-success .lo1-check { display: none; }
+.rendered-markdown .lo1-success ul, .lo1-success ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.rendered-markdown .lo1-success li, .lo1-success li {
+  position: relative; display: flex; align-items: center;
+  gap: var(--space-3); padding: 14px 14px 14px 52px;
+  background: rgba(0,0,0,0.02); border: 1px solid rgba(17,24,39,0.08);
+  border-radius: 14px; color: var(--text-primary); line-height: 1.35;
+}
+.rendered-markdown .lo1-success li::before, .lo1-success li::before {
+  content: "✓"; position: absolute; left: 14px;
+  width: 26px; height: 26px; display: grid; place-items: center;
+  border-radius: 8px; font-weight: 900; font-size: 14px;
+  color: var(--teal-600); background: rgba(20,184,166,0.12);
+  border: 1px solid rgba(20,184,166,0.32);
+}
+
+/* Hover polish */
+@media (hover: hover) {
+  .rendered-markdown summary.lo1-obj-summary:hover, summary.lo1-obj-summary:hover { background: rgba(0,0,0,0.015); }
+  .rendered-markdown details.lo1-obj:hover, details.lo1-obj:hover { border-color: rgba(17,24,39,0.14); }
+}
+
+
+/* =============================================================
+   15. Lesson Template (ls2b)
+   ============================================================= */
+.ls2b {
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  max-width: min(1100px, 92vw);
+  margin: 0 auto;
+  line-height: 1.65;
+  padding: 28px 0 72px;
+}
+
+.ls2b-kicker    { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 8px; font-weight: 600; }
+.ls2b-title     { font-size: 42px; line-height: 1.1; margin: 0 0 10px; font-weight: 800; letter-spacing: -0.01em; }
+.ls2b-subtitle  { margin: 0 0 24px; color: var(--text-secondary); font-size: 18px; max-width: 72ch; }
+
+/* Start Here banner */
+.ls2b-start { border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); border-radius: 18px; padding: 18px 18px 16px; margin: 0 0 18px; }
+[data-theme="dark"] .ls2b-start { background: rgba(255,255,255,0.05); }
+.ls2b-start-title { margin: 0 0 14px; font-size: 18px; font-weight: 800; line-height: 1.25; }
+.ls2b-start-grid  { display: grid; gap: 10px; }
+.ls2b-start-row   { display: grid; grid-template-columns: 110px 1fr; gap: 14px; align-items: start; }
+.ls2b-start-label { font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-secondary); font-weight: 800; padding-top: 2px; }
+.ls2b-start-text  { margin: 0; font-size: 16px; }
+.ls2b-start-text a { color: var(--color-codio-blue); text-decoration: none; border-bottom: 1px solid rgba(43,174,255,0.35); }
+.ls2b-start-text a:hover         { border-bottom-color: rgba(43,174,255,0.7); }
+.ls2b-start-text a:focus-visible  { outline: 2px solid var(--color-codio-blue); outline-offset: 2px; border-radius: 2px; }
+
+/* Meta pills */
+.ls2b-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.ls2b-pill  { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.60); font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+[data-theme="dark"] .ls2b-pill { background: rgba(0,0,0,0.15); }
+.ls2b-dot         { width: 9px; height: 9px; border-radius: 999px; background: var(--color-codio-blue); }
+.ls2b-dot.neutral { background: rgba(17,24,39,0.35); }
+[data-theme="dark"] .ls2b-dot.neutral { background: rgba(255,255,255,0.35); }
+.ls2b-dot.green   { background: var(--color-codio-green); }
+.ls2b-dot.purple  { background: var(--color-codio-purple); }
+
+/* Shell grid */
+.ls2b-shell { display: grid; grid-template-columns: 1fr 280px; gap: 22px; align-items: start; }
+
+/* Lesson Map */
+.ls2b-map { border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); border-radius: 18px; padding: 16px; position: sticky; top: 18px; }
+[data-theme="dark"] .ls2b-map { background: rgba(255,255,255,0.05); }
+.ls2b-map-title { margin: 0 0 12px; font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-secondary); font-weight: 800; }
+.ls2b-map-list  { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ls2b-map-link  { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; padding: 10px; border-radius: 14px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.70); text-decoration: none; color: inherit; transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+[data-theme="dark"] .ls2b-map-link { background: rgba(0,0,0,0.15); }
+.ls2b-map-link:hover     { border-color: rgba(43,174,255,0.28); box-shadow: 0 0 0 4px rgba(43,174,255,0.10); }
+.ls2b-map-link:focus-visible { outline: 2px solid var(--color-codio-blue); outline-offset: 3px; }
+.ls2b-map-link.is-active { border-color: rgba(43,174,255,0.34); box-shadow: 0 0 0 4px rgba(43,174,255,0.14); }
+.ls2b-icon     { width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; font-size: 12px; border: 1px solid rgba(43,174,255,0.25); background: rgba(43,174,255,0.10); color: var(--text-primary); }
+.ls2b-map-name { font-weight: 800; font-size: 15px; }
+.ls2b-map-min  { font-size: 13px; color: var(--text-secondary); font-weight: 700; white-space: nowrap; }
+
+/* Body */
+.ls2b-body { padding-top: 4px; }
+
+/* Sections */
+.ls2b-section { padding: 22px 0 26px; border-top: 1px solid var(--border-color); scroll-margin-top: 14px; }
+.ls2b-section:first-of-type { border-top: none; padding-top: 8px; }
+.ls2b-section:target { outline: 4px solid rgba(43,174,255,0.12); outline-offset: 8px; border-radius: 10px; }
+.ls2b-sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin: 0 0 10px; }
+.ls2b-h2 { margin: 0; font-size: 20px; font-weight: 900; line-height: 1.25; }
+.ls2b-h3 { margin: 14px 0 8px; font-size: 17px; font-weight: 800; line-height: 1.3; }
+.ls2b-min { font-size: 13px; font-weight: 700; color: var(--text-secondary); border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+[data-theme="dark"] .ls2b-min { background: rgba(255,255,255,0.05); }
+
+/* Content */
+.ls2b-p        { margin: 0 0 12px; font-size: 16px; }
+.ls2b-p.muted  { color: var(--text-secondary); }
+.ls2b-ol, .ls2b-ul { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+.ls2b-ol li, .ls2b-ul li { font-size: 16px; }
+
+/* Artifact / diagram wrapper */
+.ls2b-artifact                  { margin-top: 12px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); border-radius: 14px; padding: 12px; }
+[data-theme="dark"] .ls2b-artifact { background: rgba(255,255,255,0.05); }
+.ls2b-artifact img              { width: 100%; height: auto; display: block; border-radius: 12px; }
+.ls2b-caption                   { margin: 10px 0 0; font-size: 14px; color: var(--text-secondary); font-style: italic; }
+
+/* Code / Output */
+.ls2b-pre { margin: 0; border-radius: 12px; overflow: auto; border: 1px solid var(--border-color); background: rgba(0,0,0,0.03); }
+[data-theme="dark"] .ls2b-pre { background: rgba(255,255,255,0.06); }
+.ls2b-pre code { display: block; padding: 16px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; line-height: 1.55; }
+.ls2b-output   { margin-top: 12px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.03); border-radius: 14px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; line-height: 1.55; white-space: pre-wrap; }
+[data-theme="dark"] .ls2b-output { background: rgba(255,255,255,0.06); }
+
+/* Tables */
+.ls2b-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; }
+.ls2b-table th, .ls2b-table td { padding: 10px 12px; text-align: left; border: 1px solid var(--border-color); }
+.ls2b-table th { background: rgba(0,0,0,0.03); font-weight: 700; }
+[data-theme="dark"] .ls2b-table th { background: rgba(255,255,255,0.06); }
+
+/* Definition lists */
+.ls2b-dl { margin: 0; display: grid; gap: 12px; }
+.ls2b-dt { font-weight: 800; font-size: 16px; margin: 0; }
+.ls2b-dd { margin: 4px 0 0; padding-left: 18px; color: var(--text-secondary); font-size: 15px; }
+
+/* Collapsible details */
+.ls2b-details { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; }
+.ls2b-summary { padding: 12px 14px; cursor: pointer; list-style: none; font-weight: 700; background: rgba(0,0,0,0.02); user-select: none; }
+[data-theme="dark"] .ls2b-summary { background: rgba(255,255,255,0.05); }
+.ls2b-summary::-webkit-details-marker { display: none; }
+.ls2b-summary:hover { background: rgba(0,0,0,0.04); }
+[data-theme="dark"] .ls2b-summary:hover { background: rgba(255,255,255,0.08); }
+.ls2b-details-body { padding: 12px 14px; }
+
+/* Inline code */
+.ls2b code:not(.ls2b-pre code) { background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.92em; }
+[data-theme="dark"] .ls2b code:not(.ls2b-pre code) { background: rgba(255,255,255,0.10); }
+
+/* Embedded interactive */
+.ls2b-interactive { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; background: rgba(0,0,0,0.02); }
+[data-theme="dark"] .ls2b-interactive { background: rgba(255,255,255,0.05); }
+.ls2b-interactive iframe { width: 100%; border: none; display: block; }
+
+
+/* =============================================================
+   16. Coding Exercise Template (ce1h)
+   ============================================================= */
+.ce1h {
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  max-width: min(1020px, 92vw);
+  margin: 0 auto;
+  padding: 28px 0 70px;
+  line-height: 1.65;
+}
+
+.ce1h-kicker   { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 8px; font-weight: 600; }
+.ce1h-title    { font-size: 38px; line-height: 1.12; margin: 0 0 10px; font-weight: 800; }
+.ce1h-subtitle { margin: 0 0 18px; color: var(--text-secondary); font-size: 18px; }
+
+/* Top problem card */
+.ce1h-card { background: var(--surface-primary); border: 1px solid var(--border-color); border-radius: 18px; box-shadow: 0 10px 22px rgba(0,0,0,0.05); overflow: hidden; }
+[data-theme="dark"] .ce1h-card { box-shadow: 0 14px 30px rgba(0,0,0,0.45); }
+.ce1h-cardhead { padding: 16px 18px 12px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); display: grid; gap: 10px; }
+[data-theme="dark"] .ce1h-cardhead { background: rgba(255,255,255,0.04); }
+.ce1h-labelrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ce1h-label    { font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-secondary); font-weight: 900; }
+
+/* Chips */
+.ce1h-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.ce1h-chip  { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); font-size: 14px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+[data-theme="dark"] .ce1h-chip { background: rgba(255,255,255,0.05); }
+.ce1h-dot   { width: 9px; height: 9px; border-radius: 999px; background: var(--color-codio-blue); }
+
+.ce1h-probtitle { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 900; }
+.ce1h-task      { margin: 0; font-size: 16.5px; color: var(--text-primary); }
+
+/* Mini spec summary */
+.ce1h-mini    { padding: 14px 18px 16px; display: grid; gap: 10px; }
+.ce1h-miniline{ display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+.ce1h-minikey { font-size: 12px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-secondary); font-weight: 900; padding-top: 2px; }
+.ce1h-minival { margin: 0; font-size: 15.5px; }
+
+/* Spec sections */
+.ce1h-spec { margin-top: 22px; background: transparent; }
+.ce1h-section { padding: 16px 0; }
+.ce1h-section + .ce1h-section { border-top: 1px solid var(--border-color); }
+.ce1h-h2 { margin: 0 0 8px; font-size: 15.5px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.ce1h-p  { margin: 0 0 10px; font-size: 16.5px; }
+.ce1h-p:last-child { margin-bottom: 0; }
+
+.ce1h ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+
+/* Code chips */
+.ce1h code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.92em; padding: 0.12em 0.38em; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
+[data-theme="dark"] .ce1h code { background: rgba(255,255,255,0.05); }
+
+/* I/O examples */
+.ce1h-io { border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); border-radius: 14px; padding: 12px 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14.5px; white-space: pre-wrap; margin-top: 10px; }
+[data-theme="dark"] .ce1h-io { background: rgba(255,255,255,0.05); }
+
+/* Check block */
+.ce1h-check { border: 1px solid rgba(43,174,255,0.18); background: rgba(43,174,255,0.06); border-radius: 16px; padding: 14px; }
+.ce1h-check:focus-within { box-shadow: 0 0 0 4px rgba(43,174,255,0.14); border-color: rgba(43,174,255,0.35); outline: none; }
+[data-theme="dark"] .ce1h-check { background: rgba(43,174,255,0.10); border-color: rgba(43,174,255,0.28); }
+
+/* Hint */
+.ce1h-hint { margin-top: 10px; border-radius: 14px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); overflow: hidden; }
+[data-theme="dark"] .ce1h-hint { background: rgba(255,255,255,0.05); }
+.ce1h-hint summary { cursor: pointer; list-style: none; padding: 12px 14px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ce1h-hint summary::-webkit-details-marker { display: none; }
+.ce1h-hint summary::after { content: "▾"; color: var(--text-secondary); font-size: 14px; }
+.ce1h-hint[open] summary::after { content: "▴"; }
+.ce1h-hint .ce1h-hintbody { padding: 0 14px 14px; color: var(--text-secondary); font-size: 15.5px; }
+
+
+/* =============================================================
+   17. Responsive
+   ============================================================= */
+
+/* Lesson template: mobile */
+@media (max-width: 900px) {
+  .ls2b-shell { grid-template-columns: 1fr; }
+  .ls2b-map   { order: -1; position: static; }
+  .ls2b-body  { order: 0; }
+}
+
+@media (max-width: 720px) {
+  .ls2b-start-row { grid-template-columns: 1fr; gap: 6px; }
+
+  /* LO1 */
+  .rendered-markdown .lo1, .lo1 { max-width: 94vw; padding: var(--space-6) var(--space-4); }
+  .rendered-markdown .lo1-header, .lo1-header { padding: var(--space-6); }
+  .rendered-markdown .lo1-title, .lo1-title { font-size: 26px; }
+  .rendered-markdown summary.lo1-obj-summary, summary.lo1-obj-summary { padding: 16px; }
+  .rendered-markdown .lo1-frame-head, .lo1-frame-head { padding: 20px; }
+  .rendered-markdown .lo1-frame-body, .lo1-frame-body { padding: 20px; }
+  .rendered-markdown .lo1-frame > :not(.lo1-frame-head):not(.lo1-frame-body),
+  .lo1-frame > :not(.lo1-frame-head):not(.lo1-frame-body) { padding: 20px; }
+}
+
+
+/* =============================================================
+   18. Reduced Motion
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .rendered-markdown .lo1 *, .lo1 * { transition: none !important; }
+  .ls2b-map-link, .ls2b-pill, .codio-button, .toggle .toggle-label,
+  .toggle .toggle-handle, .theme-toggle-switch, .theme-toggle-switch::before { transition: none !important; }
+}
+
+
+/* =========================================================
+   LO1 Template Patch — pill tint colors + callout variants
+   Add this at the very bottom of your CSS file.
+   ========================================================= */
+
+:root{
+  /* extra neutrals for "mode" pill */
+  --slate-50:#f8fafc;
+  --slate-200:#e2e8f0;
+  --slate-700:#334155;
+
+  /* teal for "deliverable" pill */
+  --teal-50:#ecfeff;
+  --teal-200:#99f6e4;
+  --teal-700:#0f766e;
+  --teal-500:#14b8a6;
+}
+
+/* --- Pills: tinted backgrounds + per-pill dot colors --- */
+.rendered-markdown .lo1 .lo1-pill,
+.lo1 .lo1-pill{
+  background: var(--surface-primary);
+}
+
+/* Time pill (blue) */
+.rendered-markdown .lo1 .lo1-pill--time,
+.lo1 .lo1-pill--time{
+  background: var(--accent-50);
+  border-color: var(--accent-200);
+  color: var(--accent-700);
+}
+.rendered-markdown .lo1 .lo1-dot--time,
+.lo1 .lo1-dot--time{
+  background: var(--accent-600);
+}
+
+/* Mode pill (neutral) */
+.rendered-markdown .lo1 .lo1-pill--mode,
+.lo1 .lo1-pill--mode{
+  background: var(--slate-50);
+  border-color: var(--slate-200);
+  color: var(--slate-700);
+}
+.rendered-markdown .lo1 .lo1-dot--mode,
+.lo1 .lo1-dot--mode{
+  background: #94a3b8; /* slate-ish */
+}
+
+/* Deliverable pill (teal) */
+.rendered-markdown .lo1 .lo1-pill--deliverable,
+.lo1 .lo1-pill--deliverable{
+  background: var(--teal-50);
+  border-color: var(--teal-200);
+  color: var(--teal-700);
+}
+.rendered-markdown .lo1 .lo1-dot--deliverable,
+.lo1 .lo1-dot--deliverable{
+  background: var(--teal-500);
+}
+
+/* --- Optional: callout variants for Assumptions / Limitations --- */
+.rendered-markdown .lo1 .lo1-note--warn,
+.lo1 .lo1-note--warn{
+  border-left-color: var(--warn-700);
+  background: linear-gradient(90deg, var(--warn-50), #ffffff 58%);
+}
+.rendered-markdown .lo1 .lo1-note--warn strong,
+.lo1 .lo1-note--warn strong{
+  color: var(--warn-700);
+}
+
+
+
+:root {
+  --accent-700: #1d4ed8;
+  --accent-500: #2563eb;
+  --accent-100: #dbeafe;
+
+  --border-200: #e5e7eb;
+  --surface-50: #fbfcfd;
+  --surface-100: #f3f4f6;
+  --surface-200: #e5e7eb;
+
+  --text-900: #111827;
+  --text-800: #1f2937;
+  --text-700: #374151;
+  --text-600: #4b5563;
+
+  /* extra tokens for colored pills/checks */
+  --blue-500: #2563eb;
+  --blue-100: #dbeafe;
+  --gray-500: #6b7280;
+  --gray-100: #f3f4f6;
+  --teal-600: #0f766e;
+  --teal-100: #ccfbf1;
+  --green-600: #16a34a;
+  --green-100: #dcfce7;
+}
+
+/* --------------------------------------------------------------------------
+   GUIDE LAYOUT + TYPOGRAPHY (for use with "Extra Guides CSS", not overwrite)
+   -------------------------------------------------------------------------- */
+
+:where(.rendered-markdown) {
+  /* Wider, centered column */
+  max-width: 1100px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+
+  /* Typography */
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-900);
+}
+
+:where(.rendered-markdown) p,
+:where(.rendered-markdown) li {
+  color: var(--text-700);
+}
+
+:where(.rendered-markdown) h1 {
+  font-size: 44px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 18px 0 12px;
+  color: var(--text-900);
+}
+
+:where(.rendered-markdown) h2 {
+  font-size: 30px !important;
+  font-weight: 750 !important;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin: 28px 0 12px;
+  color: var(--text-900);
+}
+
+:where(.rendered-markdown) h3 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 1.25;
+  margin: 22px 0 10px;
+  color: var(--text-900);
+}
+
+:where(.rendered-markdown) hr {
+  border: 0;
+  border-top: 1px solid var(--border-200);
+  margin: 18px 0;
+}
+
+/* Keep inline code readable even when Codio styles are present */
+:where(.rendered-markdown) code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  font-size: 0.95em;
+}
+
+/* ======================================================
+   LEARNING OBJECTIVES (LO1) TEMPLATE STYLES
+   ====================================================== */
+
+.rendered-markdown .lo1 {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 0 10px;
+  color: var(--text-800);
+}
+
+.rendered-markdown .lo1 p { margin: 0 0 14px; }
+
+.rendered-markdown .lo1-frame {
+  background: #fff;
+  border: 1px solid var(--border-200);
+  border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.02);
+  padding: 22px;
+  margin: 18px 0;
+}
+
+.rendered-markdown .lo1-gap-26 { padding: 26px; }
+
+.rendered-markdown .lo1-frame-head h2 {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  color: var(--text-900);
+}
+
+.rendered-markdown .lo1-frame-desc {
+  color: var(--text-600);
+  margin: 0 0 14px;
+}
+
+.rendered-markdown .lo1-start {
+  margin: 14px 0 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--surface-100);
+  border: 1px solid var(--border-200);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  color: var(--text-800);
+}
+
+.rendered-markdown .lo1-start strong { font-weight: 800; }
+
+.rendered-markdown .lo1-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.rendered-markdown .lo1-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
   border-radius: 999px;
-  padding: 0px 10px;
-  background-color: transparent;
-  border: 1px solid var(--border-color);
-  text-transform: none;
-  min-width: 1em;
-  font-size: 0.9em;
-  color: var(--text-secondary);
-  margin-right: 20px;
-  transition: all 0.2s ease;
+  border: 1px solid var(--border-200);
+  background: var(--surface-100);
+  color: var(--text-700);
+  font-weight: 600;
+  font-size: 14px;
 }
 
-footer button:hover {
-  border-color: #444;
-  color: #444;
+.rendered-markdown .lo1-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--accent-500);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
-footer button span::after {
-  background-image: url('https://static-assets.codio.com/client/assets/images/guides/footer-next.69f65caf0b88ddec.png');
-  background-size: 1em 1em;
-  width: 1em;
-  height: 1em;
-  content: " ";
-  display: inline-block;
-  font-size: 1em;
-  vertical-align: middle;
-  margin-bottom: .25em;
-  margin-left: 0.1em;
+/* --- LO list items --- */
+
+.rendered-markdown .lo1-list { display: grid; gap: 14px; margin: 18px 0; }
+
+.rendered-markdown details.lo1-obj {
+  background: #fff;
+  border: 1px solid var(--border-200);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-footer button.plain span::after {
-  display: none;
+.rendered-markdown .lo1-obj-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 18px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-footer button.codio-button-type-prev span::before {
-  background-image: url('https://static-assets.codio.com/client/assets/images/guides/footer-next.69f65caf0b88ddec.png');
-  transform: scaleX(-1);
-  background-size: 1em 1em;
-  width: 1em;
-  height: 1em;
-  content: " ";
-  display: inline-block;
-  font-size: 1em;
-  vertical-align: middle;
-  margin-bottom: .25em;
-  margin-right: 0.1em;
+.rendered-markdown details.lo1-obj summary::-webkit-details-marker { display: none; }
+
+.rendered-markdown .lo1-obj-left { min-width: 0; }
+
+.rendered-markdown .lo1-obj-line1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
-footer button.codio-button-type-prev span::after {
-  display: none;
+.rendered-markdown .lo1-obj-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-900);
 }
+
+.rendered-markdown .lo1-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--blue-100);
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  font-weight: 700;
+  font-size: 13px;
+  color: #1e40af;
+}
+
+.rendered-markdown .lo1-chip.purple {
+  background: #f3e8ff;
+  border-color: rgba(168, 85, 247, 0.24);
+  color: #6b21a8;
+}
+
+.rendered-markdown .lo1-why {
+  margin: 0;
+  color: var(--text-600);
+  font-size: 15px;
+}
+
+.rendered-markdown .lo1-chevron {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border-200);
+  background: var(--surface-50);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.rendered-markdown .lo1-chevron svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--text-600);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 180ms ease;
+}
+
+.rendered-markdown details[open] .lo1-chevron svg { transform: rotate(180deg); }
+
+.rendered-markdown .lo1-obj-body {
+  padding: 0 18px 18px;
+}
+
+.rendered-markdown .lo1-subframe {
+  background: var(--surface-50);
+  border: 1px solid var(--border-200);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.rendered-markdown .lo1-subframe h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-900);
+}
+
+/* Note / callout block */
+.rendered-markdown .lo1-note {
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  border-left: 5px solid var(--accent-500);
+  background: rgba(37, 99, 235, 0.06);
+  padding: 16px 16px;
+  border-radius: 14px;
+  margin: 14px 0;
+}
+
+.rendered-markdown .lo1-note h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-900);
+}
+
+.rendered-markdown .lo1-note p { margin: 0; color: var(--text-700); }
+
+/* Success section */
+.rendered-markdown .lo1-success .lo1-frame-head h2 { margin-bottom: 8px; }
+
+/* --------------------------------------------------------------------------
+   LO TEMPLATE: colored pills + success checklist checkboxes
+   -------------------------------------------------------------------------- */
+
+/* Give the 3 standard pills distinct colors without extra HTML */
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(1) {
+  background: var(--blue-100) !important;
+  border-color: rgba(37, 99, 235, 0.28) !important;
+  color: #1e3a8a !important;
+}
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(1) .lo1-dot {
+  background: var(--blue-500) !important;
+}
+
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(2) {
+  background: var(--gray-100) !important;
+  border-color: rgba(107, 114, 128, 0.28) !important;
+  color: #374151 !important;
+}
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(2) .lo1-dot {
+  background: var(--gray-500) !important;
+}
+
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(3) {
+  background: var(--teal-100) !important;
+  border-color: rgba(13, 148, 136, 0.28) !important;
+  color: var(--teal-600) !important;
+}
+.rendered-markdown .lo1-pills .lo1-pill:nth-child(3) .lo1-dot {
+  background: var(--teal-600) !important;
+}
+
+/* Success checklist: turn plain <ul><li> into checkbox rows */
+.rendered-markdown .lo1-success ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 14px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.rendered-markdown .lo1-success li {
+  position: relative;
+  padding: 14px 16px 14px 52px;
+  border: 1px solid var(--border-200);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--text-800);
+}
+
+.rendered-markdown .lo1-success li::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--green-100);
+  border: 1px solid rgba(22, 163, 74, 0.35);
+}
+
+.rendered-markdown .lo1-success li::after {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 50%;
+  transform: translateY(-55%) rotate(-45deg);
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--green-600);
+  border-bottom: 2px solid var(--green-600);
+}
+
+
+.rendered-markdown .lo1-two-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+
+@media (max-width: 820px) {
+  .rendered-markdown .lo1-two-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* optional: make both panels feel equally “card-like” */
+.rendered-markdown .lo1-two-panel .lo1-note {
+  margin: 0;              /* prevent double margins */
+  height: 100%;           /* helps equal-height look */
+}
+
+
+.rendered-markdown .lo1-two-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+
+@media (max-width: 820px) {
+  .rendered-markdown .lo1-two-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* optional: make both panels feel equally “card-like” */
+.rendered-markdown .lo1-two-panel .lo1-note {
+  margin: 0;              /* prevent double margins */
+  height: 100%;           /* helps equal-height look */
+}
+
+
+/* =========================================================
+   A) Wider content column (keeps Codio sticky behavior intact)
+   Use Extra Guides CSS + stronger overrides to win specificity
+========================================================= */
+
+/* Most Codio guides wrap markdown in a constrained column.
+   This widens it without “breaking out” of the layout. */
+.rendered-markdown,
+.markdown-body,
+.guide-content,
+.guides-content {
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* =========================================================
+   B) Objective chip (Bloom/Stretch) placement: uniform right rail
+   - No HTML change required
+   - Keeps chip off the title text
+========================================================= */
+
+.lo1-obj-summary .lo1-obj-line1 {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 14px;
+}
+
+.lo1-obj-summary .lo1-obj-title {
+  min-width: 0;
+}
+
+.lo1-obj-summary .lo1-chip {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+/* If you want the chevron to feel like its own column */
+.lo1-obj-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 14px;
+  align-items: center;
+}
+
+.lo1-obj-left { min-width: 0; }
+.lo1-chevron { justify-self: end; }
+
+/* =========================================================
+   C) Success checklist: colored “checkbox” look
+   (Use <ul class="lo1-checklist"> … </ul>)
+========================================================= */
+
+.lo1-checklist {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.lo1-checklist li {
+  position: relative;
+  padding: 14px 14px 14px 44px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.02);
+}
+
+.lo1-checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+
+  /* “tasteful color” checkbox */
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* =========================================================
+   D) Assumptions + Limitations as a 2-panel section
+   (Use <section class="lo1-panels"> … </section>)
+========================================================= */
+
+.lo1-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .lo1-panels { grid-template-columns: 1fr; }
+}
+
+/* Make each note feel like a panel */
+.lo1-panels .lo1-note {
+  margin: 0; /* prevents stacked extra spacing */
+  height: 100%;
+}
+
+/* =========================================================
+   E) Sticky page title -> style like .lo1-kicker when Codio pins it
+========================================================= */
+
+/* Why this works:
+   Many sticky-title implementations set inline position: fixed (or fixed wrapper).
+   These selectors only “hit” when Codio is actively pinning the title.
+   If your Codio uses a class instead, see the note right below. */
+
+/* 1) Title becomes fixed via inline style */
+.rendered-markdown h1[style*="position:fixed"],
+.rendered-markdown h1[style*="position: fixed"],
+.rendered-markdown .page-title[style*="position:fixed"],
+.rendered-markdown .page-title[style*="position: fixed"] {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-secondary, #6b7280) !important;
+  line-height: 1.2 !important;
+}
+
+/* 2) If Codio pins via a wrapper that becomes fixed */
+*[style*="position:fixed"] h1,
+*[style*="position: fixed"] h1 {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--text-secondary, #6b7280) !important;
+  line-height: 1.2 !important;
+}
+
+/* NOTE (if the above doesn’t trigger):
+   Scroll until the title is sticky, right-click the sticky title -> Inspect,
+   and look for a class like “pinned / sticky / compact”.
+   Then add one rule like:
+
+   .that-sticky-class h1 { ...same styles... }
+
+   I can wire it precisely if you paste the sticky element’s HTML line/class list.
+*/
